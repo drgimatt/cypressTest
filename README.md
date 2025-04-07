@@ -1,11 +1,12 @@
 # Cypress Testing Repository
 ## Description
 
-This repository contains a sample test automation project that uses the [**SauceDemo**] (https://www.saucedemo.com/) using **Cypress** for testing. It includes tests for **Login** features with the ability to run in **headless** and **headed** modes.
+This repository contains a sample test automation project that uses the [**SauceDemo**](https://www.saucedemo.com/) using **Cypress** for testing. It includes tests for **Login** features with the ability to run in **headless** and **headed** modes.
 
 ## Features
 
-- Insert Feature Here
+- Check if user is able to login with correct credentials
+- Check if user is not able to login with incorrect credentials
 
 ## Getting Started
 
