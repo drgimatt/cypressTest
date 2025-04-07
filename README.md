@@ -1,7 +1,7 @@
 # Cypress Testing Repository
 ## Description
 
-This repository contains files that is used to perform unit testing in Cypress
+This repository contains a sample test automation project that uses the [**SauceDemo**] (https://www.saucedemo.com/) using **Cypress** for testing. It includes tests for **Login** features with the ability to run in **headless** and **headed** modes.
 
 ## Features
 
@@ -9,13 +9,44 @@ This repository contains files that is used to perform unit testing in Cypress
 
 ## Getting Started
 
-### Step 1 - Insert Step Summary here
+### Step 1 - Create a Project Folder
 
-This is a placeholder description
+* Create a project folder on your desktop (or in preferred location), with a name "cypress_projects".
 
-### Step 2 - Insert Step Summary here
+* For Windows - Go to your Desktop, right-click, and select New Folder. Name it cypress_projects.
 
-This is a placeholder description
+* Mac/Linux: Open your terminal and run the following command to create a folder:
+
+``` mkdir ~/Desktop/cypress_projects ```
+
+### Step 2 - Clone the Repository
+
+``` cd ~/Desktop/cypress_projects git clone https://github.com/drgimatt/cypressTest.git ```
+
+### Step 3 - Install Dependencies
+
+``` cd cypressTest npm install ```
+
+## Running the Tests
+
+* The test code file for the Login functionality can be run either in headless (CLI only) or headed mode (With Browser Interface).
+
+### Headless Mode
+
+* To run the test in headless mode:
+
+``` npm run login-test ```
+
+### Headed Mode
+
+* In headed mode, the browser runs with a visible UI. This mode is useful for debugging and visual verification of test actions. To run the test in headless mode:
+
+1. Open Cypress
+``` npx cypress open ```
+
+2. In the Cypress Interface, click "E2E Testing"
+3. Select your preferred browser and click "Start E2E Testing"
+4. In the newly opened browser window, select "login.cy.js" 
 
 ## Author
 
@@ -23,4 +54,4 @@ This is a placeholder description
 
 ## License
 
-This project is licensed under the --- License - see the LICENSE.md file for details
+This project is unlicensed.
