@@ -44,7 +44,7 @@ This repository contains a sample test automation project that accesses the [**S
 
 1. Open Cypress
    
-``` npx cypress open ```
+``` npx cypress open ``` or ``` npm run test ```
 
 2. In the Cypress Interface, click "E2E Testing"
 3. Select your preferred browser and click "Start E2E Testing"
