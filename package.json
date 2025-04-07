@@ -1,0 +1,24 @@
+{
+  "name": "cypresstest",
+  "version": "1.0.0",
+  "description": "This repository contains .tspec files that is used to perform unit testing in Cypress",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "login-test": "npx cypress run  --spec 'cypress/e2e/login.cy.js' --browser chrome"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/drgimatt/cypressTest.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/drgimatt/cypressTest/issues"
+  },
+  "homepage": "https://github.com/drgimatt/cypressTest#readme",
+  "devDependencies": {
+    "cypress": "^14.2.1"
+  }
+}

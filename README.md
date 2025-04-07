@@ -1,7 +1,7 @@
 # Cypress Testing Repository
 ## Description
 
-This repository contains .tspec files that is used to perform unit testing in Cypress
+This repository contains files that is used to perform unit testing in Cypress
 
 ## Features
 
