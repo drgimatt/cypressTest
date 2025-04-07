@@ -42,6 +42,7 @@ This repository contains a sample test automation project that uses the [**Sauce
 * In headed mode, the browser runs with a visible UI. This mode is useful for debugging and visual verification of test actions. To run the test in headless mode:
 
 1. Open Cypress
+   
 ``` npx cypress open ```
 
 2. In the Cypress Interface, click "E2E Testing"
