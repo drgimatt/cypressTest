@@ -19,8 +19,6 @@ This is a placeholder description
 
 ## Author
 
-drgimatt
-
 [@drgimatt](https://github.com/drgimatt)
 
 ## License
