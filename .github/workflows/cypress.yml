@@ -42,3 +42,11 @@ jobs:
         env:
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # Step 6: Archive Results Report
+
+      - name: Archive code coverage results
+        uses: actions/upload-artifact@v4
+        with:
+           name: code-coverage-report
+           path: cypress/downloads/reports/code-coverage.html

@@ -10,8 +10,10 @@ module.exports = defineConfig({
   reporterOptions: {
     charts: true,
     reportPageTitle: 'custom-title',
-    reportFilename: "[status]_[datetime]-[name]-report",
-    timestamp: "longDate",
+    //reportFilename: "[status]_[datetime]-[name]-report",
+    reportFilename: "code-coverage",
+    reportDir:"cypress/downloads/reports",
+    //timestamp: "longDate",
     embeddedScreenshots: true,
     inlineAssets: true,
     saveAllAttempts: false,
