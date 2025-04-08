@@ -11,10 +11,6 @@ on:
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
- 
-    env:
-      CYPRESS_BASE_URL: https://www.saucedemo.com/
-      CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
    
     steps:
       # Step 1: Checkout the repository
@@ -43,3 +39,6 @@ jobs:
       # Step 5: Run login.cy.js test
       - name: Run login.cy.js test
         run: npm run login-test
+        env:
+          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

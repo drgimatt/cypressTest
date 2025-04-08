@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "npx cypress open",
-    "login-test": "npx cypress run  --spec 'cypress/e2e/login.cy.js' --browser chrome"
+    "login-test": "npx cypress run --record --key 2ca37d89-fa35-40eb-b2e5-6b937568cb46 --spec 'cypress/e2e/login.cy.js' --browser chrome"
   },
   "repository": {
     "type": "git",
