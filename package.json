@@ -20,5 +20,8 @@
   "homepage": "https://github.com/drgimatt/cypressTest#readme",
   "devDependencies": {
     "cypress": "^14.2.1"
+  },
+  "dependencies": {
+    "cypresstest": "file:"
   }
 }
