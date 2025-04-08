@@ -56,4 +56,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
            name: checkout_screenshot
-           path: cypress/screenshots/screenshot-${{ steps.timestamp.outputs.timestamp }}.png
+           path: cypress/screenshots/ecom.cy.js/screenshot-${{ steps.timestamp.outputs.timestamp }}.png
