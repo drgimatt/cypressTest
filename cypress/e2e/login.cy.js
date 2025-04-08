@@ -7,7 +7,7 @@ describe('Login Spec', () => {
     cy.get('.app_logo').should('be.visible')
     cy.contains('Swag Labs')
     cy.get('[data-test="title"]').contains('Products');
-    cy.url().should('include','inventory.html')
+    cy.url().should('include','https://www.saucedemo.com/inventory.html')
   })
   it('Is not able to login', () => {
     cy.visit('https://www.saucedemo.com/');
