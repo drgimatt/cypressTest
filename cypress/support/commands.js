@@ -30,3 +30,38 @@ Cypress.Commands.add('login', (username, password) => {
     cy.get('[data-test="password"]').type(password)
     cy.get('[data-test="login-button"]').click()
  })
+
+Cypress.Commands.add('addToCart', () => {
+    cy.get('[data-test="add-to-cart-sauce-labs-fleece-jacket"]').click()
+    cy.get('[data-test="remove-sauce-labs-fleece-jacket"]').should('be.visible')
+    cy.get('[data-test="shopping-cart-badge"]').should('be.visible').and('contain','1')
+})
+
+Cypress.Commands.add('checkout', (firstName,lastName,postalCode) => {
+    cy.get('[data-test="shopping-cart-link"]')
+    .click()
+    cy.get('[data-test="cart-list"]')
+    .contains('Sauce Labs Fleece Jacket')
+    cy.get('[data-test="checkout"]')
+    .contains('Checkout')
+    .click()
+    cy.get('[data-test="firstName"]')
+    .should('be.visible')
+    .type(firstName)
+    cy.get('[data-test="lastName"]')
+    .should('be.visible')
+    .type(lastName)
+    cy.get('[data-test="postalCode"]')
+    .should('be.visible')
+    .type(postalCode)
+    cy.get('[data-test="continue"]')
+    .should('be.visible')
+    .click()
+    cy.get('[data-test="finish"]')
+    .should('be.visible')
+    .click()
+    cy.get('[data-test="shopping-cart-badge"]')
+    .should('not.exist')
+    const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+    cy.screenshot(`screenshot-${timestamp}`, { capture: 'viewport' });
+})
