@@ -1,6 +1,6 @@
 describe('Login Spec', () => {
   beforeEach(() => {
-    
+    cy.clearAllSessionStorage()
   });
   it('Is able to type', () => {
     cy.login('standard_user','secret_sauce')
