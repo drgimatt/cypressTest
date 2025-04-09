@@ -52,8 +52,8 @@ jobs:
            path: cypress/downloads/reports/code-coverage.html
 
       # Step 7: Archive Screenshot 
-      - name: Archive code coverage results
+      - name: Archive Cypress screenshots
         uses: actions/upload-artifact@v4
         with:
            name: checkout_screenshot
-           path: cypress/screenshots/ecom.cy.js/screenshot-${{ steps.timestamp.outputs.timestamp }}.png
+           path: cypress/screenshots/

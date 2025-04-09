@@ -17,5 +17,6 @@ describe('E-Commerce Test Flow/Workflow', () => {
   });
   it('Checkout with an item on cart', () => {
     cy.checkout('Miguel','Escandor','1920')
+    cy.screenshotViewport('checkoutSuccess')
   });
 })

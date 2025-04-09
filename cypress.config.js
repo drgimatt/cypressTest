@@ -29,5 +29,6 @@ module.exports = defineConfig({
         await afterRunHook();
       });
     }, testIsolation: false,
+    trashAssetsBeforeRuns: true
   },
 });
