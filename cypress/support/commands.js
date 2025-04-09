@@ -62,6 +62,10 @@ Cypress.Commands.add('checkout', (firstName,lastName,postalCode) => {
     .click()
     cy.get('[data-test="shopping-cart-badge"]')
     .should('not.exist')
+
+})
+
+Cypress.Commands.add('screenshotViewport', (name = 'screenshot') => {
     const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
-    cy.screenshot(`screenshot-${timestamp}`, { capture: 'viewport' });
+    cy.screenshot(`${name}-${timestamp}`, { capture: 'viewport' });
 })

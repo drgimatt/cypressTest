@@ -8,6 +8,7 @@ describe('Login Spec', () => {
     cy.contains('Swag Labs')
     cy.get('[data-test="title"]').contains('Products');
     cy.url().should('include','https://www.saucedemo.com/inventory.html')
+    cy.screenshotViewport('loginSuccess')
   })
   it('Is not able to login', () => {
     cy.visit('https://www.saucedemo.com/');
@@ -15,5 +16,6 @@ describe('Login Spec', () => {
     cy.get('[data-test="password"]').type("secret_sauce")
     cy.get('[data-test="login-button"]').click()
     cy.get('[data-test="error"]').should('be.visible').and('contain','Epic sadface: Sorry, this user has been locked out.')
+    cy.screenshotViewport('loginFailure')
   })
 })
