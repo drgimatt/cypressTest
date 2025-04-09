@@ -37,17 +37,23 @@ jobs:
       - name: Install dependencies
         run: npm ci
      
-      # Step 5: Run login.cy.js test
-      - name: Run login.cy.js test
-        run: npm run login-test
+      # Step 5: Run login.cy.js and ecom.cy.js test
+      - name: Run login.cy.js and ecom.cy.js test
+        run: npm run test-suite
         env:
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       # Step 6: Archive Results Report
-
       - name: Archive code coverage results
         uses: actions/upload-artifact@v4
         with:
            name: code-coverage-report
            path: cypress/downloads/reports/code-coverage.html
+
+      # Step 7: Archive Screenshot 
+      - name: Archive code coverage results
+        uses: actions/upload-artifact@v4
+        with:
+           name: checkout_screenshot
+           path: cypress/screenshots/ecom.cy.js/screenshot-${{ steps.timestamp.outputs.timestamp }}.png
