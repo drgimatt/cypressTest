@@ -67,5 +67,5 @@ Cypress.Commands.add('checkout', (firstName,lastName,postalCode) => {
 
 Cypress.Commands.add('screenshotViewport', (name = 'screenshot') => {
     const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
-    cy.screenshot(`${name}-${timestamp}`, { capture: 'viewport' });
+    cy.screenshot(`${name}-${timestamp}`, { capture: 'fullPage' });
 })
