@@ -36,7 +36,7 @@ This repository contains a sample test automation project that accesses the [**S
 
 * To run the test in headless mode:
 
-``` npm run login-test ```
+``` npm run test-suite ```
 
 ### Headed Mode
 
