@@ -1,7 +1,7 @@
 # Cypress Testing Repository
 ## Description
 
-This repository contains a sample test automation project that accesses the [**SauceDemo**](https://www.saucedemo.com/) webpage using **Cypress** for testing. It includes tests for **Login** features with the ability to run in **headless** and **headed** modes.
+This repository contains a sample test automation project that accesses the [**SauceDemo**](https://www.saucedemo.com/) webpage using **Cypress** for testing. It includes tests for **Login** and **Basic Ecommerce** features with the ability to run in **headless** and **headed** modes.
 
 ## Features
 
