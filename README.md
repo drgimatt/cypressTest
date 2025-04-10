@@ -7,6 +7,8 @@ This repository contains a sample test automation project that accesses the [**S
 
 - Check if user is able to login with correct credentials
 - Check if user is not able to login with incorrect credentials
+- Check if user is able to add items to cart
+- Check if user is able to checkout with items on cart
 
 ## Getting Started
 
