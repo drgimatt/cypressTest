@@ -1,6 +1,3 @@
-/// <reference types="Cypress" />
-
-
 describe('E-Commerce Test Flow/Workflow', () => {
   before(() => {
     cy.clearAllSessionStorage()
@@ -14,9 +11,10 @@ describe('E-Commerce Test Flow/Workflow', () => {
   })
   it('Add an item to cart', () => {
     cy.addToCart()
+    cy.screenshotfullPage('addCartSuccess')
   });
   it('Checkout with an item on cart', () => {
     cy.checkout('Miguel','Escandor','1920')
-    cy.screenshotViewport('checkoutSuccess')
+    cy.screenshotfullPage('checkoutSuccess')
   });
 })
