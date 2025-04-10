@@ -33,7 +33,7 @@ describe('Parabank Accounts Test', () => {
         cy.get('input[id="repeatedPassword"]')
             .type(data.password).should('have.value',data.password)
         cy.get('#customerForm input[type="submit"]').click()
-        cy.screenshotfullPage('accountRegisterSuccess')
+        cy.screenshotfullPage('accountRegisterSuccess_Parabank')
         cy.get('#leftPanel a[href="logout.htm"]').click()
     });
     it('Parabank Account Login - Registration Page', () => {
@@ -43,7 +43,7 @@ describe('Parabank Accounts Test', () => {
         cy.get('#loginPanel input[type="submit"]').click()
         cy.get('#rightPanel h1[class="title"]').should('not.have.value',"Error!")
         cy.get('#rightPanel p[class="error"]').should('not.have.value',"The username and password could not be verified.")
-        cy.screenshotfullPage('loginSuccessRegister')
+        cy.screenshotfullPage('loginSuccessRegister_Parabank')
         cy.get('#leftPanel a[href="logout.htm"]').click()
     })
     it('Parabank Account Login - Index', () => {
@@ -53,7 +53,7 @@ describe('Parabank Accounts Test', () => {
         cy.get('#loginPanel input[type="submit"]').click()
         cy.get('#rightPanel h1[class="title"]').should('not.have.value',"Error!")
         cy.get('#rightPanel p[class="error"]').should('not.have.value',"The username and password could not be verified.")
-        cy.screenshotfullPage('loginSuccessIndex')
+        cy.screenshotfullPage('loginSuccessIndex_Parabank')
         
     })
 })
