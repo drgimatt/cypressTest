@@ -5,9 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "npx cypress open",
-    "test-suite": "npx cypress run --record --key 2ca37d89-fa35-40eb-b2e5-6b937568cb46 --spec 'cypress/e2e/*.cy.js' --browser chrome",
-    "login-test": "npx cypress run --record --key 2ca37d89-fa35-40eb-b2e5-6b937568cb46 --spec 'cypress/e2e/login.cy.js' --browser chrome",
-    "ecom-test": "npx cypress run --record --key 2ca37d89-fa35-40eb-b2e5-6b937568cb46 --spec 'cypress/e2e/ecom.cy.js' --browser chrome"
+    "test-suite": "npx cypress run --record --key 2ca37d89-fa35-40eb-b2e5-6b937568cb46 --spec 'cypress/e2e/**/*.cy.js' --browser chrome",
+    "login-test": "npx cypress run --record --key 2ca37d89-fa35-40eb-b2e5-6b937568cb46 --spec 'cypress/e2e/saucedemo/login.cy.js' --browser chrome",
+    "parabank-test": "npx cypress run --record --key 2ca37d89-fa35-40eb-b2e5-6b937568cb46 --spec 'cypress/e2e/parabank/accounts.cy.js' --browser chrome"
   },
   "repository": {
     "type": "git",
@@ -21,10 +21,13 @@
   },
   "homepage": "https://github.com/drgimatt/cypressTest#readme",
   "devDependencies": {
+    "@faker-js/faker": "^9.6.0",
     "cypress": "^14.3.0",
-    "cypress-mochawesome-reporter": "^3.8.2"
+    "cypress-mochawesome-reporter": "^3.8.2",
+    "cypress-xpath": "^2.0.1"
   },
   "dependencies": {
+    "cypress-fixture-faker": "^1.0.4",
     "cypresstest": "file:"
   }
 }

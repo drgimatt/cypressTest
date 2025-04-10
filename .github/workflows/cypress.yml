@@ -38,7 +38,7 @@ jobs:
         run: npm ci
      
       # Step 5: Run login.cy.js and ecom.cy.js test
-      - name: Run login.cy.js and ecom.cy.js test
+      - name: Run test suite
         run: npm run test-suite
         env:
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}

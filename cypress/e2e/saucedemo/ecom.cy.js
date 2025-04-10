@@ -1,5 +1,7 @@
 describe('E-Commerce Test Flow/Workflow', () => {
   before(() => {
+    cy.clearAllCookies()
+    cy.clearAllLocalStorage()
     cy.clearAllSessionStorage()
     })
   it('Verify Login Function', () => {
@@ -11,10 +13,10 @@ describe('E-Commerce Test Flow/Workflow', () => {
   })
   it('Add an item to cart', () => {
     cy.addToCart()
-    cy.screenshotfullPage('addCartSuccess')
+    cy.screenshotfullPage('addCartSuccess_SauceDemo')
   });
   it('Checkout with an item on cart', () => {
     cy.checkout('Miguel','Escandor','1920')
-    cy.screenshotfullPage('checkoutSuccess')
+    cy.screenshotfullPage('checkoutSuccess_SauceDemo')
   });
 })
