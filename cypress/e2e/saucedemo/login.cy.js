@@ -1,5 +1,7 @@
 describe('Login Spec', () => {
   beforeEach(() => {
+    cy.clearAllCookies()
+    cy.clearAllLocalStorage()
     cy.clearAllSessionStorage()
   });
   it('Is able to type', () => {

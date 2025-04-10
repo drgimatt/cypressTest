@@ -1,5 +1,7 @@
 describe('E-Commerce Test Flow/Workflow', () => {
   before(() => {
+    cy.clearAllCookies()
+    cy.clearAllLocalStorage()
     cy.clearAllSessionStorage()
     })
   it('Verify Login Function', () => {
