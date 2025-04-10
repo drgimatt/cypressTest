@@ -33,6 +33,7 @@ describe('Parabank Accounts Test', () => {
         cy.get('input[id="repeatedPassword"]')
             .type(data.password).should('have.value',data.password)
         cy.get('#customerForm input[type="submit"]').click()
+        cy.get('#rightPanel h1[class="title"]').should('contain.text', 'Welcome ' + data.username)
         cy.screenshotfullPage('accountRegisterSuccess_Parabank')
         cy.get('#leftPanel a[href="logout.htm"]').click()
     });
