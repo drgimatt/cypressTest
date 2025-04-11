@@ -1,8 +1,6 @@
-describe('Radio Button, Checkbox, Dropdown Menu', () => {
+describe('QA Practice Test Flow', () => {
     beforeEach(() => {
-        cy.clearAllCookies()
-        cy.clearAllLocalStorage()
-        cy.clearAllSessionStorage()
+      cy.resetBrowser(true,true,true)
       });
     it('Should successfully check - Check Me Out - 2', () => {
        cy.visit('https://qa-practice.netlify.app/checkboxes')

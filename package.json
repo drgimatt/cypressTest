@@ -4,7 +4,7 @@
   "description": "This repository contains .tspec files that is used to perform unit testing in Cypress",
   "main": "index.js",
   "scripts": {
-    "test": "npx cypress open",
+    "cypress": "npx cypress open",
     "test-suite": "npx cypress run --record --key 2ca37d89-fa35-40eb-b2e5-6b937568cb46 --spec 'cypress/e2e/**/*.cy.js' --browser chrome",
     "login-test": "npx cypress run --record --key 2ca37d89-fa35-40eb-b2e5-6b937568cb46 --spec 'cypress/e2e/saucedemo/login.cy.js' --browser chrome",
     "ecomm-test": "npx cypress run --record --key 2ca37d89-fa35-40eb-b2e5-6b937568cb46 --spec 'cypress/e2e/saucedemo/ecom.cy.js' --browser chrome",

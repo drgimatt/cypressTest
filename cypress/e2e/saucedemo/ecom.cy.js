@@ -1,11 +1,9 @@
-describe('E-Commerce Test Flow/Workflow', () => {
+describe('SauceDemo E-Commerce Test Flow', () => {
   before(() => {
-    cy.clearAllCookies()
-    cy.clearAllLocalStorage()
-    cy.clearAllSessionStorage()
+    cy.resetBrowser(true,true,true)
     })
   it('Verify Login Function', () => {
-    cy.login('standard_user','secret_sauce')
+    cy.loginSecretDemo('standard_user','secret_sauce')
     cy.get('.app_logo').should('be.visible')
     cy.contains('Swag Labs')
     cy.get('[data-test="title"]').contains('Products');
