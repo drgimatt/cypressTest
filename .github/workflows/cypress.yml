@@ -2,9 +2,9 @@ name: Cypress Tests
  
 on:
   push:
-    branches:
-      - main
-      - test
+    branches: [main, test]
+  workflow_dispatch:
+  
  
 jobs:
   build-and-test:
