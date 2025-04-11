@@ -1,0 +1,16 @@
+{
+    "firstName":"${faker.person.firstName()}",
+    "lastName":"${faker.person.lastName()}",
+    "emailAddr":"${faker.internet.email()}",
+    "password": "${faker.internet.password()}",
+    "dob_day":"2",
+    "dob_month":"11",
+    "dob_year":"2001",
+    "company":"Vertere",
+    "address":"${faker.location.streetAddress()}",
+    "country":"Singapore",
+    "state":"${faker.location.state()}",
+    "city":"${faker.location.city()}",
+    "zipCode":"${faker.location.zipCode()}",
+    "phoneNum":"00000000000"
+}

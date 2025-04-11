@@ -123,9 +123,22 @@ Cypress.Commands.add('generateData', () => {
     cy.writeFile('cypress/fixtures/credentials.json', data);
     });
 });
-    
 
 Cypress.Commands.add('screenshotfullPage', (name = 'screenshot') => {
     const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
     cy.screenshot(`${name}-${timestamp}`, { capture: 'fullPage' });
 })
+
+Cypress.Commands.add('saveCart', () => {
+    cy.window().then((win) => {
+      const cart = win.localStorage.getItem('cart-contents') || '[]';
+      Cypress.env('savedCart', cart);
+    });
+  });
+
+Cypress.Commands.add('restoreCart', () => {
+    const cart = Cypress.env('savedCart') || '[]';
+    cy.window().then((win) => {
+        win.localStorage.setItem('cart-contents', cart);
+    });
+});
