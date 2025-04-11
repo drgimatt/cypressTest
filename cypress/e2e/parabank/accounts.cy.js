@@ -1,20 +1,18 @@
 const { generateCustomerData } = require("../../support/fakerUtils");
 
 describe('Parabank Accounts Test', () => {
-    let data, jsonData;
+    let data, jsonData, testData;
     before(() => {
         cy.clearAllCookies()
         cy.clearAllLocalStorage()
         cy.clearAllSessionStorage()
-        cy.fixture('credentials').then((fData) => {
-            jsonData = fData;
-        });
+        cy.generateData()
         data = generateCustomerData();
     })
-    it.only('Parabank Account Registration', () => {
+    it('Parabank Account Registration', () => {
         cy.registerParabank(data)
-        //cy.screenshotfullPage('accountRegisterSuccess_Parabank')
-        //cy.get('#leftPanel a[href="logout.htm"]').click()
+        cy.screenshotfullPage('accountRegisterSuccess_Parabank')
+        cy.get('#leftPanel a[href="logout.htm"]').click()
     });
     it('Parabank Account Login - Registration Page', () => {
         cy.visit('https://parabank.parasoft.com/parabank/register.htm');
