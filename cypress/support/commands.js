@@ -26,8 +26,19 @@
 
 import { generateCustomerData } from "./fakerUtils";
 
+Cypress.Commands.add('resetBrowser', (cookies = true, local = true, session = true ) => {
+    if (cookies) {
+        cy.clearAllCookies()
+    }
+    if (local) {
+        cy.clearAllLocalStorage()
+    }
+    if (session) {
+        cy.clearAllSessionStorage()
+    }
+})
 
-Cypress.Commands.add('login', (username, password) => { 
+Cypress.Commands.add('loginSecretDemo', (username, password) => { 
     cy.visit('https://www.saucedemo.com/'); // Runs before every test
     cy.get('[data-test="username"]').type(username)
     cy.get('[data-test="password"]').type(password)
@@ -96,6 +107,14 @@ Cypress.Commands.add('registerParabank', (data = null) => {
     cy.get('#rightPanel h1[class="title"]').should('contain.text', 'Welcome ' + data.username)
 })
 
+Cypress.Commands.add('loginParabank', (url = "", data = null) => {
+    cy.visit(url);
+    cy.get('#loginPanel input[name="username"]').type(data.username).should('have.value',data.username)
+    cy.get('#loginPanel input[name="password"]').type(data.password).should('have.value',data.password)
+    cy.get('#loginPanel input[type="submit"]').click()
+    cy.get('#rightPanel h1[class="title"]').should('not.have.value',"Error!")
+    cy.get('#rightPanel p[class="error"]').should('not.have.value',"The username and password could not be verified.")
+})
 
 Cypress.Commands.add('generateData', () => {
     cy.readFile('cypress/fixtures/credentials.json').then((data) => {

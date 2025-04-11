@@ -1,11 +1,9 @@
-describe('Login Spec', () => {
+describe('SauceDemo Login Test Flow', () => {
   beforeEach(() => {
-    cy.clearAllCookies()
-    cy.clearAllLocalStorage()
-    cy.clearAllSessionStorage()
+    cy.resetBrowser(true,true,true)
   });
-  it('Is able to type', () => {
-    cy.login('standard_user','secret_sauce')
+  it('Is able to login', () => {
+    cy.loginSecretDemo('standard_user','secret_sauce')
     cy.get('.app_logo').should('be.visible')
     cy.contains('Swag Labs')
     cy.get('[data-test="title"]').contains('Products');
