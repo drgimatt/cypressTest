@@ -24,6 +24,8 @@
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 
+import { generateCustomerData } from "./fakerUtils";
+
 
 Cypress.Commands.add('login', (username, password) => { 
     cy.visit('https://www.saucedemo.com/'); // Runs before every test
@@ -93,6 +95,16 @@ Cypress.Commands.add('registerParabank', (data = null) => {
     cy.get('#customerForm input[type="submit"]').click()
     cy.get('#rightPanel h1[class="title"]').should('contain.text', 'Welcome ' + data.username)
 })
+
+
+Cypress.Commands.add('generateData', () => {
+    cy.readFile('cypress/fixtures/credentials.json').then((data) => {
+    let testData = generateCustomerData();
+    data["1"] = testData;
+    cy.writeFile('cypress/fixtures/credentials.json', data);
+    });
+});
+    
 
 Cypress.Commands.add('screenshotfullPage', (name = 'screenshot') => {
     const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
