@@ -13,7 +13,7 @@ export function generateCustomerData() {
     city: faker.location.city(),
     state: faker.location.state(),
     zipCode: faker.location.zipCode(),
-    phoneNumber: faker.phone.number(), // pwedeng custom test data yung phone number
+    phoneNum: faker.phone.number(), // pwedeng custom test data yung phone number
     ssn: faker.string.numeric(9),
     //username: faker.internet.username(),
     username: username,

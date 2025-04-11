@@ -19,3 +19,5 @@ import 'cypress-mochawesome-reporter/register';
 import 'cypress-xpath';
 import '@faker-js/faker';
 import 'cypress-fixture-faker';
+import './fakerUtils'
+import 'cypress-plugin-api'

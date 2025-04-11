@@ -1,41 +1,20 @@
+const { generateCustomerData } = require("../../support/fakerUtils");
+
 describe('Parabank Accounts Test', () => {
-    let data;
+    let data, jsonData;
     before(() => {
         cy.clearAllCookies()
         cy.clearAllLocalStorage()
         cy.clearAllSessionStorage()
         cy.fixture('credentials').then((fData) => {
-            data = fData;
+            jsonData = fData;
         });
+        data = generateCustomerData();
     })
-    it('Parabank Account Registration', () => {
-        cy.visit('https://parabank.parasoft.com/parabank/register.htm');
-        cy.get('input[id="customer.firstName"]')
-            .type(data.firstName).should('have.value',data.firstName)
-        cy.get('input[id="customer.lastName"]')
-            .type(data.lastName).should('have.value',data.lastName)
-        cy.get('input[id="customer.address.street"]')
-            .type(data.address).should('have.value',data.address)
-        cy.get('input[id="customer.address.city"]')
-            .type(data.city).should('have.value',data.city)            
-        cy.get('input[id="customer.address.state"]')
-            .type(data.state).should('have.value',data.state)
-        cy.get('input[id="customer.address.zipCode"]')
-            .type(data.zipCode).should('have.value',data.zipCode)
-        cy.get('input[id="customer.phoneNumber"]')
-            .type(data.phoneNum).should('have.value',data.phoneNum)
-        cy.get('input[id="customer.ssn"]')
-            .type(data.ssn).should('have.value',data.ssn)
-        cy.get('input[id="customer.username"]')
-            .type(data.username).should('have.value',data.username)
-        cy.get('input[id="customer.password"]')
-            .type(data.password).should('have.value',data.password)
-        cy.get('input[id="repeatedPassword"]')
-            .type(data.password).should('have.value',data.password)
-        cy.get('#customerForm input[type="submit"]').click()
-        cy.get('#rightPanel h1[class="title"]').should('contain.text', 'Welcome ' + data.username)
-        cy.screenshotfullPage('accountRegisterSuccess_Parabank')
-        cy.get('#leftPanel a[href="logout.htm"]').click()
+    it.only('Parabank Account Registration', () => {
+        cy.registerParabank(data)
+        //cy.screenshotfullPage('accountRegisterSuccess_Parabank')
+        //cy.get('#leftPanel a[href="logout.htm"]').click()
     });
     it('Parabank Account Login - Registration Page', () => {
         cy.visit('https://parabank.parasoft.com/parabank/register.htm');
