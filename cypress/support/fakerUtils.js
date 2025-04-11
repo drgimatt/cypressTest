@@ -13,9 +13,8 @@ export function generateCustomerData() {
     city: faker.location.city(),
     state: faker.location.state(),
     zipCode: faker.location.zipCode(),
-    phoneNum: faker.phone.number(), // pwedeng custom test data yung phone number
+    phoneNum: "0000000",
     ssn: faker.string.numeric(9),
-    //username: faker.internet.username(),
     username: username,
     password: 'passw0rd',
   };
