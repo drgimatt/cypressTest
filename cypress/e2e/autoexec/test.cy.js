@@ -22,6 +22,9 @@ describe('Test Case 14 - Place Order: Register while Checkout', () => {
         cy.get('.shop-menu > .nav > :nth-child(3) > a').click();
 
         cy.get('#cart_info table tbody tr').should('have.length','3')
+        cy.get('#cart_info table tbody tr td').should('contain','Blue Top')
+        cy.get('#cart_info table tbody tr td').should('contain','Summer White Top')
+        cy.get('#cart_info table tbody tr td').should('contain','Madame Top For Women')
     })
     it('Verify if account can be created', () => {
         cy.get('.col-sm-6 > .btn').click()
@@ -93,10 +96,58 @@ describe('Test Case 14 - Place Order: Register while Checkout', () => {
         cy.get(':nth-child(4) > .cart_total_price').should('have.text','Rs. 1900')
 
     })  
-    it.skip('Verify if user can checkout items', () => {
-        cy.get(':nth-child(7) > .btn')
+    it('Verify if user can checkout items', () => {
+        cy.get(':nth-child(7) > .btn').click()
+
+        cy.get('[data-qa="name-on-card"]').type(data.firstName + ' ' + data.lastName).should('have.value',data.firstName + ' ' + data.lastName)
+        cy.get('[data-qa="card-number"]').type(data.creditNum).should('have.value',data.creditNum)
+        cy.get('[data-qa="cvc"]').type(data.creditCvc).should('have.value',data.creditCvc)
+        cy.get('[data-qa="expiry-month"]').type('04').should('have.value','04')
+        cy.get('[data-qa="expiry-year"]').type('2030').should('have.value','2030')
+        cy.get('[data-qa="pay-button"]').click()
+
+        cy.get('[data-qa="order-placed"] > b').should('have.text','Order Placed!')
+        cy.get('.col-sm-9 > p').should('contain','Congratulations!').and('contain','confirmed!')
+        cy.get('[data-qa="continue-button"]').click()
     })
-    it.skip('Verify that account can be deleted', () => {
+    it('Verify that account can be deleted', () => {
+        cy.get('.shop-menu > .nav > :nth-child(5) > a').should('be.visible').and('have.text',' Delete Account')
+        cy.get('.shop-menu > .nav > :nth-child(5) > a').click()
+
+        cy.get('.col-sm-9 > :nth-child(2)').should('contain','permanently deleted!')
+        cy.get('.col-sm-9 > :nth-child(3)').should('contain','create new account')
+
+        cy.get('[data-qa="continue-button"]').click()
+
+        cy.get('.shop-menu > .nav > :nth-child(4) > a').should('be.visible').and('have.text',' Signup / Login')
         
     })           
 }) 
+
+describe('Test Case 15 - Place Order: Register before Checkout', () => {
+    let url = 'https://automationexercise.com/'
+    let data
+    before(() => {
+        cy.fixture('autoexecdetails.json').then((fdata) => {
+            data = fdata;
+        })
+        cy.resetBrowser(true,true,true)
+    })
+    it('', () => {
+      
+    });
+})
+
+describe('Test Case 16 - Place Order: Login before Checkout', () => {
+    let url = 'https://automationexercise.com/'
+    let data
+    before(() => {
+        cy.fixture('autoexecdetails.json').then((fdata) => {
+            data = fdata;
+        })
+        cy.resetBrowser(true,true,true)
+    })
+    it('', () => {
+      
+    });
+  })
