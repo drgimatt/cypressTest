@@ -176,6 +176,8 @@ Cypress.Commands.add('registerAutoExer',(data = null) => {
     cy.get('.col-sm-9 > :nth-child(3)').should('contain','advantage')
     cy.get('[data-qa="continue-button"]').click()
 
+    cy.screenshotfullPage("registrationSuccess")
+
     cy.get('.shop-menu > .nav > :nth-child(4) > a').should('be.visible').and('have.text',' Logout')
     cy.get(':nth-child(10) > a').should('have.text',' Logged in as '+ data.firstName + ' ' + data.lastName)
     cy.get('b').should('have.text',data.firstName + ' ' + data.lastName)
@@ -190,12 +192,14 @@ Cypress.Commands.add('loginAutoExer', (data = null) => {
 
     cy.get('.shop-menu > .nav > :nth-child(4) > a').should('be.visible').and('have.text',' Logout')
     cy.get(':nth-child(10) > a').should('have.text',' Logged in as '+ data.firstName + ' ' + data.lastName)
+    cy.screenshotfullPage("loginSuccess")
     
 })
 
 Cypress.Commands.add('logoutAutoExer', () => {
     cy.get('.shop-menu > .nav > :nth-child(4) > a').should('be.visible').and('have.text',' Logout')
     cy.get('.shop-menu > .nav > :nth-child(4) > a').click()
+    cy.screenshotfullPage("logoutSuccess")
 })
 
 Cypress.Commands.add('deleteAccountAutoExer', () => {
@@ -203,6 +207,9 @@ Cypress.Commands.add('deleteAccountAutoExer', () => {
     cy.get('.shop-menu > .nav > :nth-child(5) > a').click()
 
     cy.get('.col-sm-9 > :nth-child(2)').should('contain','permanently deleted!')
+
+    cy.screenshotfullPage("deleteSuccess")
+
     cy.get('.col-sm-9 > :nth-child(3)').should('contain','create new account')
 
     cy.get('[data-qa="continue-button"]').click()
@@ -224,6 +231,8 @@ Cypress.Commands.add('addCartAutoExer', () => {
     cy.get('#cart_info table tbody tr td').should('contain','Blue Top')
     cy.get('#cart_info table tbody tr td').should('contain','Summer White Top')
     cy.get('#cart_info table tbody tr td').should('contain','Madame Top For Women')
+
+    cy.screenshotfullPage("addCartSuccess")
 })
 
 Cypress.Commands.add('checkoutAutoExer', (data = null) => {
@@ -310,5 +319,8 @@ Cypress.Commands.add('checkoutAutoExer', (data = null) => {
 
     cy.get('[data-qa="order-placed"] > b').should('have.text','Order Placed!')
     cy.get('.col-sm-9 > p').should('contain','Congratulations!').and('contain','confirmed!')
+
+    cy.screenshotfullPage("checkoutSuccess")
+
     cy.get('[data-qa="continue-button"]').click()
 })
