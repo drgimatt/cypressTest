@@ -1,0 +1,19 @@
+{
+    "firstName":"${faker.person.firstName()}",
+    "lastName":"${faker.person.lastName()}",
+    "emailAddr":"${faker.internet.email()}",
+    "password": "${faker.internet.password()}",
+    "dob_day":"${faker.number.int({ min: 1, max: 25 })}",
+    "dob_month":"${faker.number.int({ min: 1, max: 12 })}",
+    "dob_year":"${faker.number.int({ min: 1930, max: 2025 })}",
+    "dob":"${faker.date.anytime()}",
+    "company":"${faker.company.name()}",
+    "address":"${faker.location.streetAddress()}",
+    "country":"${faker.helpers.arrayElement(['Singapore', 'India', 'United States', 'Canada', 'New Zealand', 'Israel', 'Australia'])}",
+    "state":"${faker.location.state()}",
+    "city":"${faker.location.city()}",
+    "zipCode":"${faker.location.zipCode()}",
+    "phoneNum":"00000000000",
+    "creditNum":"${faker.finance.creditCardNumber()}",
+    "creditCvc":"${faker.finance.creditCardCVV()}"
+}

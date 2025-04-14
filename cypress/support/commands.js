@@ -123,9 +123,192 @@ Cypress.Commands.add('generateData', () => {
     cy.writeFile('cypress/fixtures/credentials.json', data);
     });
 });
-    
 
 Cypress.Commands.add('screenshotfullPage', (name = 'screenshot') => {
     const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
     cy.screenshot(`${name}-${timestamp}`, { capture: 'fullPage' });
+})
+
+Cypress.Commands.add('saveCart', () => {
+    cy.window().then((win) => {
+      const cart = win.localStorage.getItem('cart-contents') || '[]';
+      Cypress.env('savedCart', cart);
+    });
+  });
+
+Cypress.Commands.add('restoreCart', () => {
+    const cart = Cypress.env('savedCart') || '[]';
+    cy.window().then((win) => {
+        win.localStorage.setItem('cart-contents', cart);
+    });
+});
+
+Cypress.Commands.add('registerAutoExer',(data = null) => {
+
+    cy.get('[data-qa="signup-name"]').type(data.firstName + ' ' + data.lastName).should('have.value',data.firstName + ' ' + data.lastName)
+    cy.get('[data-qa="signup-email"]').type(data.emailAddr).should('have.value',data.emailAddr)
+    cy.get('[data-qa="signup-button"]').click()
+
+    cy.get('#id_gender1').click()
+    cy.get('[data-qa="name"]').should('have.value',data.firstName + ' ' + data.lastName)
+    cy.get('[data-qa="email"]').should('have.value',data.emailAddr)
+    cy.get('[data-qa="password"]').type(data.password).should('have.value',data.password)
+    cy.get('[data-qa="days"]').select(data.dob_day).should('have.value', data.dob_day);
+    cy.get('[data-qa="months"]').select(data.dob_month).should('have.value', data.dob_month);
+    cy.get('[data-qa="years"]').select(data.dob_year).should('have.value', data.dob_year);
+    cy.get('input[id=newsletter]').should('not.be.checked').and('have.value','1')
+    cy.get('input[id=optin]').check()
+    cy.get('input[id=optin]').should('be.checked').and('have.value','1')
+    cy.get('[data-qa="first_name"]').type(data.firstName).should('have.value',data.firstName)
+    cy.get('[data-qa="last_name"]').type(data.lastName).should('have.value',data.lastName)
+    cy.get('[data-qa="company"]').type(data.company).should('have.value',data.company)
+    cy.get('[data-qa="address"]').type(data.address).should('have.value',data.address)
+    cy.get('[data-qa="address2"]')
+    cy.get('[data-qa="country"]').select(data.country).should('have.value',data.country)
+    cy.get('[data-qa="state"]').type(data.state).should('have.value',data.state)
+    cy.get('[data-qa="city"]').type(data.city).should('have.value',data.city)
+    cy.get('[data-qa="zipcode"]').type(data.zipCode).should('have.value',data.zipCode)
+    cy.get('[data-qa="mobile_number"]').type(data.phoneNum).should('have.value',data.phoneNum)
+    cy.get('[data-qa="create-account"]').click()
+
+    cy.get('b').should('have.text','Account Created!')
+    cy.get('.col-sm-9 > :nth-child(2)').should('contain','Congratulations!')
+    cy.get('.col-sm-9 > :nth-child(3)').should('contain','advantage')
+    cy.get('[data-qa="continue-button"]').click()
+
+    cy.get('.shop-menu > .nav > :nth-child(4) > a').should('be.visible').and('have.text',' Logout')
+    cy.get(':nth-child(10) > a').should('have.text',' Logged in as '+ data.firstName + ' ' + data.lastName)
+    cy.get('b').should('have.text',data.firstName + ' ' + data.lastName)
+})
+
+Cypress.Commands.add('loginAutoExer', (data = null) => {
+    cy.get('.shop-menu > .nav > :nth-child(4) > a').should('be.visible').and('have.text',' Signup / Login').click()
+    
+    cy.get('[data-qa="login-email"]').type(data.emailAddr).should('have.value',data.emailAddr)
+    cy.get('[data-qa="login-password"]').type(data.password).should('have.value',data.password)
+    cy.get('[data-qa="login-button"]').click()
+
+    cy.get('.shop-menu > .nav > :nth-child(4) > a').should('be.visible').and('have.text',' Logout')
+    cy.get(':nth-child(10) > a').should('have.text',' Logged in as '+ data.firstName + ' ' + data.lastName)
+    
+})
+
+Cypress.Commands.add('logoutAutoExer', () => {
+    cy.get('.shop-menu > .nav > :nth-child(4) > a').should('be.visible').and('have.text',' Logout')
+    cy.get('.shop-menu > .nav > :nth-child(4) > a').click()
+})
+
+Cypress.Commands.add('deleteAccountAutoExer', () => {
+    cy.get('.shop-menu > .nav > :nth-child(5) > a').should('be.visible').and('have.text',' Delete Account')
+    cy.get('.shop-menu > .nav > :nth-child(5) > a').click()
+
+    cy.get('.col-sm-9 > :nth-child(2)').should('contain','permanently deleted!')
+    cy.get('.col-sm-9 > :nth-child(3)').should('contain','create new account')
+
+    cy.get('[data-qa="continue-button"]').click()
+
+    cy.get('.shop-menu > .nav > :nth-child(4) > a').should('be.visible').and('have.text',' Signup / Login')
+})
+
+Cypress.Commands.add('addCartAutoExer', () => {
+    cy.url().should('eq','https://automationexercise.com/')
+    cy.get('.features_items > :nth-child(3) > .product-image-wrapper > .single-products > .productinfo > .btn').click();
+    cy.get('.modal-footer > .btn').click();
+    cy.get('.features_items > :nth-child(8) > .product-image-wrapper > .single-products > .productinfo > .btn').click();
+    cy.get('.modal-footer > .btn').click();
+    cy.get('.features_items > :nth-child(9) > .product-image-wrapper > .single-products > .productinfo > .btn').click();
+    cy.get('.modal-footer > .btn').click();
+    cy.get('.shop-menu > .nav > :nth-child(3) > a').click();
+
+    cy.get('#cart_info table tbody tr').should('have.length','3')
+    cy.get('#cart_info table tbody tr td').should('contain','Blue Top')
+    cy.get('#cart_info table tbody tr td').should('contain','Summer White Top')
+    cy.get('#cart_info table tbody tr td').should('contain','Madame Top For Women')
+})
+
+Cypress.Commands.add('checkoutAutoExer', (data = null) => {
+    cy.get('.shop-menu > .nav > :nth-child(3) > a').click();
+    cy.get('#cart_info table tbody tr').should('have.length','3')
+    cy.get('.col-sm-6 > .btn').click()
+
+    cy.get(':nth-child(2) > .heading').should('have.text','Address Details')
+    cy.get('#address_delivery > .address_firstname').should('have.text','Mr. ' + data.firstName + ' ' + data.lastName)
+    cy.get('#address_delivery > :nth-child(3)').should('have.text',data.company)
+    cy.get('#address_delivery > :nth-child(4)').should('have.text',data.address)
+    cy.get('#address_delivery > .address_city').should('have.text',data.city + ' ' + data.state + '\n\t\t\t\t\t\t\t\t' + data.zipCode)
+    cy.get('#address_delivery > .address_country_name').should('have.text',data.country)
+    cy.get('#address_delivery > .address_phone').should('have.text',data.phoneNum)
+
+    cy.get('#address_invoice > .address_firstname').should('have.text','Mr. ' + data.firstName + ' ' + data.lastName)
+    cy.get('#address_invoice > :nth-child(3)').should('have.text',data.company)
+    cy.get('#address_invoice > :nth-child(4)').should('have.text',data.address)
+    cy.get('#address_invoice > .address_city').should('have.text',data.city + ' ' + data.state + '\n\t\t\t\t\t\t\t\t' + data.zipCode)
+    cy.get('#address_invoice > .address_country_name').should('have.text',data.country)
+    cy.get('#address_invoice > .address_phone').should('have.text',data.phoneNum)
+
+    cy.get('#cart_info table tbody tr').should('have.length','4')
+    cy.get('#cart_info table tbody tr td').should('contain','Blue Top')
+    cy.get('#cart_info table tbody tr td').should('contain','Summer White Top')
+    cy.get('#cart_info table tbody tr td').should('contain','Madame Top For Women')
+    cy.get('#cart_info table tbody tr td').should('contain','Blue Top')
+    cy.get('#product-1 > .cart_total > .cart_total_price').should('have.text','Rs. 500')
+    cy.get('#product-6 > .cart_total > .cart_total_price').should('have.text','Rs. 400')
+    cy.get('#product-7 > .cart_total > .cart_total_price').should('have.text','Rs. 1000')
+    cy.get(':nth-child(4) > .cart_total_price').should('have.text','Rs. 1900')
+    
+    cy.get(':nth-child(7) > .btn').click()
+
+    cy.get('[data-qa="name-on-card"]').type(data.firstName + ' ' + data.lastName).should('have.value',data.firstName + ' ' + data.lastName)
+    cy.get('[data-qa="card-number"]').type(data.creditNum).should('have.value',data.creditNum)
+    cy.get('[data-qa="cvc"]').type(data.creditCvc).should('have.value',data.creditCvc)
+    cy.get('[data-qa="expiry-month"]').type('04').should('have.value','04')
+    cy.get('[data-qa="expiry-year"]').type('2030').should('have.value','2030')
+    cy.get('[data-qa="pay-button"]').click()
+
+    // // Assuming you have jQuery available
+    // const $ = Cypress.$;
+
+    // // Spy on the removeClass method
+    // cy.spy(Cypress.$.fn, 'hide').as('hideSpy')
+
+    // // Perform actions that should trigger removeClass
+    // cy.get('[data-qa="pay-button"]').click(); // Example action that triggers removeClass
+
+    // // Assert that removeClass was called
+    // cy.get('@hideSpy').should('have.been.called')
+
+    // cy.get('#success_message > .alert-success').should('have.text', 'Your order has been placed successfully!')
+
+
+    // cy.spy(Cypress.$.fn, 'removeClass').as('removeClassSpy');
+
+    // // Perform actions to submit the form
+    // //cy.get('[data-qa="pay-button"]').click(); 
+    // cy.get('#payment-form').submit();
+    
+    // // Assert that removeClass was called with 'hide' on #success_message
+    // cy.get('@removeClassSpy').should('have.been.calledWith', 'hide');
+    
+    // // Check if the #success_message div is visible
+    // cy.get('#success_message').should('not.have.class', 'hide');
+    
+
+    //cy.get('div[id="success_message"]').as("postAlert")
+
+    //cy.get('#success_message > .alert-success').as('postAlert')
+    //cy.wait('@postAlert').its('visibility').should('not.be.hidden')
+    
+    // cy.intercept('POST', '/payment').as('formSubmit');
+    // cy.get('form[id="payment-form"]').submit();
+
+    // cy.get('#success_message > .alert-success').should('have.text', 'Your order has been placed successfully!')
+
+    // cy.wait('@formSubmit');
+
+
+    //cy.get('#success_message > .alert-success').should('have.value', 'Your order has been placed successfully!').pause()
+
+    cy.get('[data-qa="order-placed"] > b').should('have.text','Order Placed!')
+    cy.get('.col-sm-9 > p').should('contain','Congratulations!').and('contain','confirmed!')
+    cy.get('[data-qa="continue-button"]').click()
 })
