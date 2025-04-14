@@ -140,3 +140,4 @@ cypress/screenshots/*
 
 # downloads
 cypress/downloads/*
+cypress/downloads/reports/code-coverage.html
