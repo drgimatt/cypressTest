@@ -1,6 +1,6 @@
 describe('QA Practice Test Flow', () => {
     beforeEach(() => {
-      cy.resetBrowser(true,true,true)
+      cy.resetBrowser({ cookies: true, local: true, session: true });
       });
     it('Should successfully check - Check Me Out - 2', () => {
        cy.visit('https://qa-practice.netlify.app/checkboxes')

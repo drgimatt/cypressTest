@@ -1,6 +1,6 @@
 describe('Cart Persistence Test', () => {
     before(() => {
-        cy.resetBrowser(true,true,true)
+        cy.resetBrowser({ cookies: true, local: true, session: true });
     })
     it('adds item to cart and saves cart contents', () => {
         cy.visit('https://www.saucedemo.com/');
