@@ -25,6 +25,7 @@
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 
 import { generateCustomerData } from "./fakerUtils";
+import { RegistrationPage } from "./pages/registration.page"
 
 Cypress.Commands.add('resetBrowser', (options = { cookies: true, local: true, session: true }) => {
     const { cookies, local, session } = options;
@@ -302,3 +303,9 @@ Cypress.Commands.add('checkoutAutoExer', (data = null) => {
 
     cy.get('[data-qa="continue-button"]').click()
 })
+
+Cypress.Commands.add('fillRegistrationForm', (customerData = generateCustomerData()) => {
+    RegistrationPage.fillSignUpForm(customerData);
+    RegistrationPage.submitSignUpForm();
+    RegistrationPage.verifySignUpSuccess(customerData.username);
+  });

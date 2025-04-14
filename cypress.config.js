@@ -4,8 +4,8 @@ const { beforeRunHook, afterRunHook } = require('cypress-mochawesome-reporter/li
 module.exports = defineConfig({
   projectId: "eqpax6",
   experimentalStudio: true,
-  // viewportWidth: 1920,
-  // viewportHeight: 1080,
+  //viewportWidth: 1920,
+  //viewportHeight: 1080,
   reporter: 'cypress-mochawesome-reporter',
   reporterOptions: {
     charts: true,
