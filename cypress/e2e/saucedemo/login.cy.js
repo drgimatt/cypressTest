@@ -1,6 +1,6 @@
 describe('SauceDemo Login Test Flow', () => {
   beforeEach(() => {
-    cy.resetBrowser({ cookies: true, local: false, session: true });
+    cy.resetBrowser({ cookies: true, local: true, session: true });
   });
   it('Is able to login', () => {
     cy.loginSecretDemo('standard_user','secret_sauce')

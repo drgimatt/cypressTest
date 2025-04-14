@@ -4,7 +4,7 @@ describe('Test Case 14 - Place Order: Register while Checkout', () => {
         cy.fixture('autoexecdetails.json').then((fdata) => {
             data = fdata;
         })
-        cy.resetBrowser({ cookies: true, local: false, session: true });
+        cy.resetBrowser({ cookies: true, local: true, session: true });
     })
     it('Verify that Homepage is accessible', () => {
         cy.visit('https://automationexercise.com/')
@@ -37,7 +37,7 @@ describe('Test Case 15 - Place Order: Register before Checkout', () => {
         cy.fixture('autoexecdetails.json').then((fdata) => {
             data = fdata;
         })
-        cy.resetBrowser({ cookies: true, local: false, session: true });
+        cy.resetBrowser({ cookies: true, local: true, session: true });
     })
     it('Verify that Homepage is accessible', () => {
         cy.visit('https://automationexercise.com/')
@@ -71,7 +71,7 @@ describe('Test Case 16 - Place Order: Login before Checkout', () => {
         cy.fixture('autoexecdetails.json').then((fdata) => {
             data = fdata;
         })
-        cy.resetBrowser({ cookies: true, local: false, session: true });
+        cy.resetBrowser({ cookies: true, local: true, session: true });
     })
     it('Verify that Homepage is accessible', () => {
         cy.visit('https://automationexercise.com/')
