@@ -9,7 +9,6 @@ on:
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
-   
     steps:
       # Step 1: Checkout the repository
       - name: Checkout
@@ -56,7 +55,7 @@ jobs:
            path: cypress/screenshots/
 
       # Step 8: Rename report file to index.html for GitHub Pages
-      - name: Rename report file to index.html
+      - name: Prepare report file for Github Pages
         run: mv cypress/downloads/reports/code-coverage.html cypress/downloads/reports/index.html
 
       # Step 9: Upload report to GitHub Pages artifact
