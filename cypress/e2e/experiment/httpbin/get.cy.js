@@ -1,7 +1,7 @@
 describe('GET Request - HTTPBin', () => {
     let url = "https://httpbin.org/get"
     before(() => {
-        cy.resetBrowser(true,true,true)
+        cy.resetBrowser({ cookies: true, local: false, session: true });
     })
     it('Recieves a Response code of 200', () => {
         cy.api(url)

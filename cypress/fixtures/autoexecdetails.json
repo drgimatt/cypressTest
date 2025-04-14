@@ -5,7 +5,7 @@
     "password": "${faker.internet.password()}",
     "dob_day":"${faker.number.int({ min: 1, max: 25 })}",
     "dob_month":"${faker.number.int({ min: 1, max: 12 })}",
-    "dob_year":"${faker.number.int({ min: 1930, max: 2025 })}",
+    "dob_year":"${faker.number.int({ min: 1930, max: 2021 })}",
     "dob":"${faker.date.anytime()}",
     "company":"${faker.company.name()}",
     "address":"${faker.location.streetAddress()}",

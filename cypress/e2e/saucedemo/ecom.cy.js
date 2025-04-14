@@ -1,6 +1,6 @@
 describe('SauceDemo E-Commerce Test Flow', () => {
   before(() => {
-    cy.resetBrowser(true,true,true)
+    cy.resetBrowser({ cookies: true, local: false, session: true });
     })
   it('Verify Login Function', () => {
     cy.loginSecretDemo('standard_user','secret_sauce')

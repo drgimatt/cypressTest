@@ -26,17 +26,22 @@
 
 import { generateCustomerData } from "./fakerUtils";
 
-Cypress.Commands.add('resetBrowser', (cookies = true, local = true, session = true ) => {
+Cypress.Commands.add('resetBrowser', (options = { cookies: true, local: true, session: true }) => {
+    const { cookies, local, session } = options;
+  
     if (cookies) {
-        cy.clearAllCookies()
+      cy.clearAllCookies();
+      cy.log('Cleared all cookies');
     }
     if (local) {
-        cy.clearAllLocalStorage()
+      cy.clearAllLocalStorage();
+      cy.log('Cleared all local storage');
     }
     if (session) {
-        cy.clearAllSessionStorage()
+      cy.clearAllSessionStorage();
+      cy.log('Cleared all session storage');
     }
-})
+  });
 
 Cypress.Commands.add('loginSecretDemo', (username, password) => { 
     cy.visit('https://www.saucedemo.com/'); // Runs before every test
@@ -272,51 +277,20 @@ Cypress.Commands.add('checkoutAutoExer', (data = null) => {
     cy.get('[data-qa="cvc"]').type(data.creditCvc).should('have.value',data.creditCvc)
     cy.get('[data-qa="expiry-month"]').type('04').should('have.value','04')
     cy.get('[data-qa="expiry-year"]').type('2030').should('have.value','2030')
-    cy.get('[data-qa="pay-button"]').click()
-
-    // // Assuming you have jQuery available
-    // const $ = Cypress.$;
-
-    // // Spy on the removeClass method
-    // cy.spy(Cypress.$.fn, 'hide').as('hideSpy')
-
-    // // Perform actions that should trigger removeClass
-    // cy.get('[data-qa="pay-button"]').click(); // Example action that triggers removeClass
-
-    // // Assert that removeClass was called
-    // cy.get('@hideSpy').should('have.been.called')
-
-    // cy.get('#success_message > .alert-success').should('have.text', 'Your order has been placed successfully!')
-
-
-    // cy.spy(Cypress.$.fn, 'removeClass').as('removeClassSpy');
-
-    // // Perform actions to submit the form
-    // //cy.get('[data-qa="pay-button"]').click(); 
-    // cy.get('#payment-form').submit();
     
-    // // Assert that removeClass was called with 'hide' on #success_message
-    // cy.get('@removeClassSpy').should('have.been.calledWith', 'hide');
-    
-    // // Check if the #success_message div is visible
-    // cy.get('#success_message').should('not.have.class', 'hide');
-    
+    cy.get('#payment-form').then($form => {
+        $form.one('submit', e => e.preventDefault());
+      }); 
 
-    //cy.get('div[id="success_message"]').as("postAlert")
+    cy.get('[data-qa="pay-button"]').click();
 
-    //cy.get('#success_message > .alert-success').as('postAlert')
-    //cy.wait('@postAlert').its('visibility').should('not.be.hidden')
-    
-    // cy.intercept('POST', '/payment').as('formSubmit');
-    // cy.get('form[id="payment-form"]').submit();
+    cy.get('#success_message > .alert-success')
+    .should('contain', 'Your order has been placed successfully!')
+    .and('be.visible')
 
-    // cy.get('#success_message > .alert-success').should('have.text', 'Your order has been placed successfully!')
+    cy.get('[data-qa="pay-button"]').click();
 
-    // cy.wait('@formSubmit');
-
-
-    //cy.get('#success_message > .alert-success').should('have.value', 'Your order has been placed successfully!').pause()
-
+    cy.url().should('contain','https://automationexercise.com/payment_done/')
     cy.get('[data-qa="order-placed"] > b').should('have.text','Order Placed!')
     cy.get('.col-sm-9 > p').should('contain','Congratulations!').and('contain','confirmed!')
 

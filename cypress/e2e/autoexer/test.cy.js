@@ -4,7 +4,7 @@ describe('Test Case 14 - Place Order: Register while Checkout', () => {
         cy.fixture('autoexecdetails.json').then((fdata) => {
             data = fdata;
         })
-        cy.resetBrowser(true,true,true)
+        cy.resetBrowser({ cookies: true, local: false, session: true });
     })
     it('Verify that Homepage is accessible', () => {
         cy.visit('https://automationexercise.com/')

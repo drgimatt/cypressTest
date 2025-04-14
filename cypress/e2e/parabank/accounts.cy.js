@@ -3,7 +3,7 @@ const { generateCustomerData } = require("../../support/fakerUtils");
 describe('Parabank Accounts Test Flow', () => {
     let data;
     before(() => {
-        cy.resetBrowser(true,true,true)
+        cy.resetBrowser({ cookies: true, local: false, session: true });
         cy.generateData()
         data = generateCustomerData();
     })
