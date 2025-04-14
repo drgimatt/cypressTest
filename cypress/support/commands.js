@@ -152,14 +152,17 @@ Cypress.Commands.add('registerAutoExer',(data = null) => {
 
     cy.get('[data-qa="signup-name"]').type(data.firstName + ' ' + data.lastName).should('have.value',data.firstName + ' ' + data.lastName)
     cy.get('[data-qa="signup-email"]').type(data.emailAddr).should('have.value',data.emailAddr)
-    cy.get('[data-qa="signup-button"]').click()
+    cy.get('[data-qa="signup-button"]').should('contain','Signup').click()
 
     cy.get('#id_gender1').click()
     cy.get('[data-qa="name"]').should('have.value',data.firstName + ' ' + data.lastName)
     cy.get('[data-qa="email"]').should('have.value',data.emailAddr)
     cy.get('[data-qa="password"]').type(data.password).should('have.value',data.password)
+    cy.get('select[data-qa="days"] option:selected').should('have.text', 'Day');
     cy.get('[data-qa="days"]').select(data.dob_day).should('have.value', data.dob_day);
+    cy.get('select[data-qa="months"] option:selected').should('have.text', 'Month');
     cy.get('[data-qa="months"]').select(data.dob_month).should('have.value', data.dob_month);
+    cy.get('select[data-qa="years"] option:selected').should('have.text', 'Year');
     cy.get('[data-qa="years"]').select(data.dob_year).should('have.value', data.dob_year);
     cy.get('input[id=newsletter]').should('not.be.checked').and('have.value','1')
     cy.get('input[id=optin]').check()
@@ -168,18 +171,19 @@ Cypress.Commands.add('registerAutoExer',(data = null) => {
     cy.get('[data-qa="last_name"]').type(data.lastName).should('have.value',data.lastName)
     cy.get('[data-qa="company"]').type(data.company).should('have.value',data.company)
     cy.get('[data-qa="address"]').type(data.address).should('have.value',data.address)
-    cy.get('[data-qa="address2"]')
+    cy.get('[data-qa="address2"]').should('be.visible')
+    cy.get('select[data-qa="country"] option:selected').should('have.text', 'India');
     cy.get('[data-qa="country"]').select(data.country).should('have.value',data.country)
     cy.get('[data-qa="state"]').type(data.state).should('have.value',data.state)
     cy.get('[data-qa="city"]').type(data.city).should('have.value',data.city)
     cy.get('[data-qa="zipcode"]').type(data.zipCode).should('have.value',data.zipCode)
     cy.get('[data-qa="mobile_number"]').type(data.phoneNum).should('have.value',data.phoneNum)
-    cy.get('[data-qa="create-account"]').click()
+    cy.get('[data-qa="create-account"]').should('contain','Create Account').click()
 
     cy.get('b').should('have.text','Account Created!')
     cy.get('.col-sm-9 > :nth-child(2)').should('contain','Congratulations!')
     cy.get('.col-sm-9 > :nth-child(3)').should('contain','advantage')
-    cy.get('[data-qa="continue-button"]').click()
+    cy.get('[data-qa="continue-button"]').should('contain','Continue').click()
 
     cy.screenshotfullPage("registrationSuccess")
 
@@ -193,7 +197,7 @@ Cypress.Commands.add('loginAutoExer', (data = null) => {
     
     cy.get('[data-qa="login-email"]').type(data.emailAddr).should('have.value',data.emailAddr)
     cy.get('[data-qa="login-password"]').type(data.password).should('have.value',data.password)
-    cy.get('[data-qa="login-button"]').click()
+    cy.get('[data-qa="login-button"]').should('contain','Login').click()
 
     cy.get('.shop-menu > .nav > :nth-child(4) > a').should('be.visible').and('have.text',' Logout')
     cy.get(':nth-child(10) > a').should('have.text',' Logged in as '+ data.firstName + ' ' + data.lastName)
@@ -217,7 +221,7 @@ Cypress.Commands.add('deleteAccountAutoExer', () => {
 
     cy.get('.col-sm-9 > :nth-child(3)').should('contain','create new account')
 
-    cy.get('[data-qa="continue-button"]').click()
+    cy.get('[data-qa="continue-button"]').should('contain','Continue').click()
 
     cy.get('.shop-menu > .nav > :nth-child(4) > a').should('be.visible').and('have.text',' Signup / Login')
 })
