@@ -55,7 +55,11 @@ jobs:
            name: checkout_screenshot
            path: cypress/screenshots/
 
-      # Step 8: Upload report to GitHub Pages artifact
+      # Step 8: Rename report file to index.html for GitHub Pages
+      - name: Rename report file to index.html
+        run: mv cypress/downloads/reports/code-coverage.html cypress/downloads/reports/index.html
+
+      # Step 9: Upload report to GitHub Pages artifact
       - name: Upload GitHub Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
