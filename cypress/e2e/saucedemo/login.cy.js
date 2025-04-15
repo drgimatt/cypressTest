@@ -7,7 +7,7 @@ describe('SauceDemo Login Test Flow', () => {
     cy.get('.app_logo').should('be.visible')
     cy.contains('Swag Labs')
     cy.get('[data-test="title"]').contains('Products');
-    cy.url().should('include','test')
+    cy.url().should('include','https://www.saucedemo.com/inventory.html')
     cy.screenshotfullPage('loginSuccess_SauceDemo')
   })
   it('Is not able to login', () => {
