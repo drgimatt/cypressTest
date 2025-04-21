@@ -1,18 +1,5 @@
 class RegistrationPage {
-    // Define locators
-    firstNameInput = 'input[id="customer.firstName"]';
-    lastNameInput = 'input[id="customer.lastName"]';
-    addressInput = 'input[id="customer.address.street"]';
-    cityInput = 'input[id="customer.address.city"]';
-    stateInput = 'input[id="customer.address.state"]';
-    zipCodeInput = 'input[id="customer.address.zipCode"]';
-    phoneNumberInput = 'input[id="customer.phoneNumber"]';
-    ssnInput = 'input[id="customer.ssn"]';
-    usernameInput = 'input[id="customer.username"]';
-    passwordInput = 'input[id="customer.password"]';
-    confirmPasswordInput = 'input[id="repeatedPassword"]';
-    registerButton = 'input[value="Register"]';
-    welcomeMessage = 'h1.title';
+x
   
     // Method to fill the signup form
     fillSignUpForm({
