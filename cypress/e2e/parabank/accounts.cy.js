@@ -8,6 +8,7 @@ describe('Parabank Accounts Test Flow', () => {
         data = generateCustomerData();
     })
     it('Parabank Account Registration', () => {
+        cy.visit('https://parabank.parasoft.com/parabank/register.htm')
         cy.registerParabank(data)
         cy.screenshotfullPage('accountRegisterSuccess_Parabank')
         cy.get('#leftPanel a[href="logout.htm"]').click()

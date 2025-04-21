@@ -1,5 +1,12 @@
+import homePage from "./pages/home-page"
+import cartsPage from "./pages/carts-page"
+import signupPage from "./pages/signup-page"
+import loginPage from "./pages/login-page"
+import checkoutPage from "./pages/checkout-page"
+
+
 describe('Test Case 14 - Place Order: Register while Checkout', () => {
-    let data
+    let data, name
     before(() => {
         cy.fixture('autoexecdetails.json').then((fdata) => {
             data = fdata;
@@ -8,32 +15,37 @@ describe('Test Case 14 - Place Order: Register while Checkout', () => {
     })
     it('Verify that Homepage is accessible', () => {
         cy.visit('https://automationexercise.com/')
-        cy.get('.shop-menu > .nav > :nth-child(1) > a').should('be.visible').and('have.css','color','rgb(255, 165, 0)')
-        cy.get('.features_items > .title').should('be.visible').and('have.text','Features Items').and('have.css','color','rgb(254, 152, 15)')
         cy.screenshotfullPage('homeSuccess')
     })
     it('Verify that products can be added and cart is viewable', () => {
-        cy.addCartAutoExer()
+        homePage.addToCart()
+        cartsPage.verifyCart()
 
     })
     it('Verify if an account can be created', () => {
         cy.get('.col-sm-6 > .btn').click()
         cy.get('.modal-body > :nth-child(2) > a > u').should('have.text','Register / Login').click()
-        cy.registerAutoExer(data)
+        name = data.firstName + " " + data.lastName
+        loginPage.signupUser(name, data.emailAddr)
+        signupPage.signUpUser(data)
+        signupPage.verifyUserIsSignedUp()
+        loginPage.verifyLoginUser(data.firstName, data.lastName)
 
     })
     it('Verify if user can checkout items', () => {
-        cy.checkoutAutoExer(data)
+        cartsPage.verifyCart()
+        cartsPage.elements.checkout_button().click()
+        checkoutPage.checkoutCart(data)
+        checkoutPage.isPaymentSuccess()
 
     })
     it('Verify that account can be deleted', () => {
-        cy.deleteAccountAutoExer()
-
+        homePage.deleteUser()
     })           
 }) 
 
 describe('Test Case 15 - Place Order: Register before Checkout', () => {
-    let data
+    let data, name
     before(() => {
         cy.fixture('autoexecdetails.json').then((fdata) => {
             data = fdata;
@@ -42,33 +54,37 @@ describe('Test Case 15 - Place Order: Register before Checkout', () => {
     })
     it('Verify that Homepage is accessible', () => {
         cy.visit('https://automationexercise.com/')
-        cy.get('.shop-menu > .nav > :nth-child(1) > a').should('be.visible').and('have.css','color','rgb(255, 165, 0)')
-        cy.get('.features_items > .title').should('be.visible').and('have.text','Features Items').and('have.css','color','rgb(254, 152, 15)')
         cy.screenshotfullPage('homeSuccess')
     })
     it('Verify if an account can be created', () => {
-        cy.get('.shop-menu > .nav > :nth-child(4)').should('have.text', ' Signup / Login').click()
-        cy.registerAutoExer(data)
+        name = data.firstName + " " + data.lastName
+        loginPage.signupUser(name, data.emailAddr)
+        signupPage.signUpUser(data)
+        signupPage.verifyUserIsSignedUp()
+        loginPage.verifyLoginUser(data.firstName, data.lastName)
 
     })
     it('Verify that products can be added and cart is viewable', () => {
-        cy.addCartAutoExer()
+        homePage.addToCart()
+        cartsPage.verifyCart()
 
     })
     it('Verify if user can checkout items', () => {
-        cy.checkoutAutoExer(data)
+        cartsPage.verifyCart()
+        cartsPage.elements.checkout_button().click()
+        checkoutPage.checkoutCart(data)
+        checkoutPage.isPaymentSuccess()
 
     })
     it('Verify that account can be deleted', () => {
-        cy.deleteAccountAutoExer()
-
-    }) 
+        homePage.deleteUser()
+    })    
 
     
 })
 
 describe('Test Case 16 - Place Order: Login before Checkout', () => {
-    let data
+    let data, name
     before(() => {
         cy.fixture('autoexecdetails.json').then((fdata) => {
             data = fdata;
@@ -77,31 +93,36 @@ describe('Test Case 16 - Place Order: Login before Checkout', () => {
     })
     it('Verify that Homepage is accessible', () => {
         cy.visit('https://automationexercise.com/')
-        cy.get('.shop-menu > .nav > :nth-child(1) > a').should('be.visible').and('have.css','color','rgb(255, 165, 0)')
-        cy.get('.features_items > .title').should('be.visible').and('have.text','Features Items').and('have.css','color','rgb(254, 152, 15)')
         cy.screenshotfullPage('homeSuccess')
     })
     it('Verify if an account can be created', () => {
-        cy.get('.shop-menu > .nav > :nth-child(4)').should('have.text', ' Signup / Login').click()
-        cy.registerAutoExer(data)
+        name = data.firstName + " " + data.lastName
+        loginPage.signupUser(name, data.emailAddr)
+        signupPage.signUpUser(data)
+        signupPage.verifyUserIsSignedUp()
+        loginPage.verifyLoginUser(data.firstName, data.lastName)
 
     })
     it('Verify that account is logged off', () => {
-        cy.logoutAutoExer()
+        homePage.logout()
     })
     it('Verify that account can login', () => {
-        cy.loginAutoExer(data)
+        loginPage.loginUser(data.emailAddr, data.password)
     })
     it('Verify that products can be added and cart is viewable', () => {
-        cy.addCartAutoExer()
+        homePage.addToCart()
+        cartsPage.verifyCart()
 
     })
     it('Verify if user can checkout items', () => {
-        cy.checkoutAutoExer(data)
+        cartsPage.verifyCart()
+        cartsPage.elements.checkout_button().click()
+        checkoutPage.checkoutCart(data)
+        checkoutPage.isPaymentSuccess()
 
     })
     it('Verify that account can be deleted', () => {
-        cy.deleteAccountAutoExer()
+        homePage.deleteUser()
 
     }) 
   })
