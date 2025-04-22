@@ -21,3 +21,4 @@ import '@faker-js/faker';
 import 'cypress-fixture-faker';
 import './fakerUtils'
 import 'cypress-plugin-api'
+import 'cypress-wait-until';
