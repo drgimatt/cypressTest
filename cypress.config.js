@@ -4,6 +4,12 @@ const { beforeRunHook, afterRunHook } = require('cypress-mochawesome-reporter/li
 module.exports = defineConfig({
   projectId: "eqpax6",
   experimentalStudio: true,
+  env: {
+    PROJECT_NAME : 'Cypress Test Automation Training',
+    ENVIRONMENT : 'QA',
+    API_KEY : 'special-key',
+    API_BASE_URL : 'https://petstore.swagger.io/v2'
+  },
   //viewportWidth: 1920,
   //viewportHeight: 1080,
   reporter: 'cypress-mochawesome-reporter',

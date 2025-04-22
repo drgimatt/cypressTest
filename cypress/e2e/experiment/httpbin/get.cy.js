@@ -3,13 +3,14 @@ describe('GET Request - HTTPBin', () => {
     before(() => {
         cy.resetBrowser({ cookies: true, local: true, session: true });
     })
-    it('Recieves a Response code of 200', () => {
-        cy.api(url)
-        cy.request({
+    it('Returns a Response code of 200', () => {
+        cy.api({
+            method: 'GET',
             url: url
         }).then((response) => {
             expect(response.status).to.eql(200);
             expect(response.headers.server).to.eql("gunicorn/19.9.0")
+            expect(response.body.headers.Host).to.eql("httpbin.org")
         })
     })
 })
