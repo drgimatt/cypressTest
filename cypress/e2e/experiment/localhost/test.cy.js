@@ -59,7 +59,7 @@ describe('POST Request - Register a User', () => {
             expect(response.body.message).to.eql("All fields required")
         })
     })
-    it('Returns a Response code of 400 for Missing Fields', () => {
+    it('Returns a Response code of 400 for existing email', () => {
         cy.api({
             method: 'POST',
             url: baseURL + '/register',
@@ -187,6 +187,21 @@ describe('GET Request - Get Specific User by ID', () => {
             expect(response.body.id).to.eql(id)
         })
     })
+    it('Returns a Response code of 404 - User not Found', () => {
+        cy.api({
+            method: 'GET',
+            url: baseURL + '/' + 2,
+            headers: {
+                Authorization: 'Bearer ' + token
+            },
+            failOnStatusCode : false
+        }).then((response) => {
+            expect(response.status).to.eql(404);
+            expect(response.statusText).to.eql('Not Found');
+            expect(response.body.message).to.eql('User not found')
+            expect(response.headers['content-type']).to.contain("application/json")
+        })
+    })
 })
 
 describe('PUT Request - Update a User', () => {
@@ -232,6 +247,45 @@ describe('PUT Request - Update a User', () => {
             expect(response.body.id).to.eql(id)
         })
     })
+    it('Returns a Response code of 400 for Missing Fields', () => {
+        cy.api({
+            method: 'PUT',
+            url: baseURL + '/' + id,
+            body : {
+                name: "teranull",
+                email: "null@null.com"
+            },
+            headers: {
+                Authorization: 'Bearer ' + token
+            },
+            failOnStatusCode : false
+        }).then((response) => {
+            expect(response.status).to.eql(400);
+            expect(response.statusText).to.eql('Bad Request');
+            expect(response.headers['content-type']).to.contain("application/json")
+            expect(response.body.message).to.eql("All fields required")
+        })
+    })
+    it('Returns a Response code of 404 for user not found', () => {
+        cy.api({
+            method: 'PUT',
+            url: baseURL + '/' + '5',
+            body : {
+                "name": faker.internet.username(),
+                "email": faker.internet.email(),
+                "password": faker.internet.password()
+            },
+            headers: {
+                Authorization: 'Bearer ' + token
+            },
+            failOnStatusCode : false
+        }).then((response) => {
+            expect(response.status).to.eql(404);
+            expect(response.statusText).to.eql('Not Found');
+            expect(response.headers['content-type']).to.contain("application/json")
+            expect(response.body.message).to.eql("User not found")
+        })
+    })    
 })
 
 describe('PATCH Request - Update a User', () => {
