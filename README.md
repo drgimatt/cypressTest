@@ -1,14 +1,33 @@
 # Cypress Testing Repository
 ## Description
 
-This repository contains a sample test automation project that accesses the [**SauceDemo**](https://www.saucedemo.com/) webpage using **Cypress** for testing. It includes tests for **Login** and **Basic Ecommerce** features with the ability to run in **headless** and **headed** modes.
+This repository contains a sample test automation project that accesses numerous webpages and endpoints using **Cypress** for testing. The test suite included is as follows:
+
+* [Pet Store API](https://petstore.swagger.io/)
+* [Automation Exercise](https://automationexercise.com/) 
+* [Parabank](https://parabank.parasoft.com/parabank/index.htm) - Created with a POM format
+* [QA-Practice](https://qa-practice.netlify.app)
+* [SauceDemo](https://www.saucedemo.com/)
+* [HTTPBin](https://httpbin.org/)
+* Localhost Server
+
+Each of the websites are tested based on functionalities that are both easily accessible and catching the user's attention, as well as underlying functionalities responsible for the operation of the website itself.
 
 ## Features
 
-- Check if user is able to login with correct credentials
-- Check if user is not able to login with incorrect credentials
-- Check if user is able to add items to cart
-- Check if user is able to checkout with items on cart
+- **Pet Store API** : Tests the ability of the API to respond to requests regarding the pet store's ability to process orders and its ability to process account information for users.
+
+- **Automation Exercise** : Follows the testing procedures listed for Test Cases 14, 15, and 16, which switches around when the user is registered and/or logged into the system before checking out
+  
+- **Parabank** : Tests the ability of the website to register and login clients
+
+- **QA-Practice** : A Practice test to understand the way to invoke radio buttons and checkboxes for Cypress
+
+- **SauceDemo** : Like the Automation Exercise, this also tests the ability of the user to purchase items from the website. It uses the normal user credentials.
+
+- **HTTPBin** : A Practice test that uses the cypress-plugin-api to make a simple GET request and expects a response code of 200
+
+- **Localhost Server** : A Practice test that uses numerous request that simulates a normal user creation and deletion process while including authorization headers as part of the request.
 
 ## Getting Started
 
@@ -50,7 +69,7 @@ This repository contains a sample test automation project that accesses the [**S
 
 2. In the Cypress Interface, click "E2E Testing"
 3. Select your preferred browser and click "Start E2E Testing"
-4. In the newly opened browser window, select "login.cy.js" 
+4. In the newly opened browser window, select the spec file you want to test
 
 ## Author
 
