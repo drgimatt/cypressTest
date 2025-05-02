@@ -1,11 +1,4 @@
-const { before } = require("mocha")
-
-let baseURL = 'http://localhost:4000/api/user'
-let username = 'titingkayad2'
-let password = 'kinaya2'
-let userID = '42'
-let deleteID
-let response
+const { before, after } = require("mocha")
 
 const expectedStructure = {
     id: "number",
@@ -19,6 +12,33 @@ const expectedStructure = {
     updatedAt: "string"
 }
 
+const testingCredentials = {
+    email: "testing@testing123.com",
+    username: "titingkayad2",
+    password: "kinaya2",
+    firstName: "yeshua",
+    lastName: "bayaaw",
+    accountType: "USER"
+}
+
+const debugCredentials = {
+    email: "test@testing12345.com",
+    username: "titingkayad",
+    password: "kinaya",
+    firstName: "thefirst",
+    lastName: "lasttwo",
+    accountType: "USER"
+}
+
+let updatedBody = {
+    email: "test@testing12345.com",
+    username: "titingkayad",
+    password: "kinaya",
+    firstName: "firstone",
+    lastName: "twentytwo",
+    accountType: "USER"
+}
+
 const checkStructure = (obj, structure) => {
     Object.keys(structure).forEach(key => {
         expect(obj).to.have.property(key);
@@ -26,21 +46,36 @@ const checkStructure = (obj, structure) => {
     })
 }
 
-
 const findUserIDbyEmail = (obj, email) => {
     for (let key in obj) {
         if (obj[key].email === email) {
             return obj[key].id;
         }
     }
-    return null; // Return null if no match is found
+    return null; 
 }
 
+let baseURL = 'http://localhost:4000/api/user'
+let username = testingCredentials.username
+let password = testingCredentials.password
+let userID = null
+let fakeID = '52034'
+let response = null
 
 describe('UserAPI Test Case #1 - Get All User - Assert that all registered user`s information can be obtained', () => {
-    before(() => { })
-    after(() => { })
-    it('Verify that the Response Code is 200 if users are found', () => {
+    before(() => {
+        cy.api({
+            method: 'POST',
+            url: 'http://localhost:4000/api/register',
+            body: testingCredentials,
+            failOnStatusCode: false
+        })
+        cy.api({
+            method: 'POST',
+            url: 'http://localhost:4000/api/register',
+            body: debugCredentials,
+            failOnStatusCode: false
+        })
         cy.api({
             method: 'GET',
             url: baseURL + '/',
@@ -50,37 +85,22 @@ describe('UserAPI Test Case #1 - Get All User - Assert that all registered user`
             },
             failOnStatusCode: false
         }).then((res) => {
-            expect(res.status).to.eql(200);
-            expect(res.statusText).to.eql('OK');
+            response = res
+            userID = findUserIDbyEmail(response.body, debugCredentials.email)
         })
+    })
+    it('Verify that the Response Code is 200 if users are found', () => {
+        expect(response.status).to.eql(200);
+        expect(response.statusText).to.eql('OK');
     });
     it('Verify that the Response Body is in JSON', () => {
-        cy.api({
-            method: 'GET',
-            url: baseURL + '/',
-            auth: {
-                username: username,
-                password: password
-            },
-            failOnStatusCode: false
-        }).then((res) => {
-            expect(res.headers['content-type']).to.eql("application/json; charset=utf-8")
-        })
+        expect(response.headers['content-type']).to.eql("application/json; charset=utf-8")
+
     });
     it('Verify that the Response Body contains the expected content', () => {
-        cy.api({
-            method: 'GET',
-            url: baseURL + '/',
-            auth: {
-                username: username,
-                password: password
-            },
-            failOnStatusCode: false
-        }).then((res) => {
-            expect(res.body).to.be.an('array');
-            res.body.slice(0, 5).forEach(item => {
-                checkStructure(item, expectedStructure)
-            })
+        expect(response.body).to.be.an('array');
+        response.body.slice(0, 5).forEach(item => {
+            checkStructure(item, expectedStructure)
         })
     });
 })
@@ -90,68 +110,24 @@ describe('UserAPI Test Case #2 - Get All User - Assert that the proper response 
         cy.api({
             method: 'GET',
             url: "https://cd91f18d-ffc2-4963-a095-099387df4cf4.mock.pstmn.io/api/user/",
-            // auth: {
-            //     username: username,
-            //     password: password
-            // },
             failOnStatusCode: false
         }).then((res) => {
             expect(res.status).to.eql(404);
         })
-        // cy.intercept("GET", baseURL + "/", {
-        //     statusCode: 404,
-        //     headers: {
-        //         'content-type': 'text/html'
-        //     },
-        //     body: {
-        //         "error": "No users found"
-        //     }
-        // }).as("getUser")
-
-        // cy.visit(baseURL + '/', {
-        //     failOnStatusCode: false
-        // })
-
-        // cy.wait('@getUser').then(({ request, response }) => {
-        //     expect(response.statusCode).to.eql(404);
-        //     cy.get('body').should('contain', 'No users found');
-        // })
     });
     it('Verify that the Response Body is in JSON', () => {
-        // cy.api({
-        //     method: 'GET',
-        //     url: baseURL + '/',
-        //     auth: {
-        //         username: username,
-        //         password: password
-        //     },
-        //     failOnStatusCode: false
-        // }).then((res) => {
-        //     expect(res.headers['content-type']).to.eql("application/json; charset=utf-8")
-        // })
         cy.api({
             method: 'GET',
             url: "https://cd91f18d-ffc2-4963-a095-099387df4cf4.mock.pstmn.io/api/user/",
-            // auth: {
-            //     username: username,
-            //     password: password
-            // },
             failOnStatusCode: false
         }).then((res) => {
             expect(res.headers['content-type']).to.eql("application/json; charset=utf-8")
-            // res.body.slice(0, 5).forEach(item => {
-            //     checkStructure(item, expectedStructure)
-            // })
         })
     });
     it('Verify that the Response Body contains the correct message', () => {
         cy.api({
             method: 'GET',
             url: "https://cd91f18d-ffc2-4963-a095-099387df4cf4.mock.pstmn.io/api/user/",
-            // auth: {
-            //     username: username,
-            //     password: password
-            // },
             failOnStatusCode: false
         }).then((res) => {
             expect(res.body.error).to.eql('No users found')
@@ -226,7 +202,7 @@ describe('UserAPI Test Case #3 - Get All User - Assert that the proper response 
 })
 
 describe('UserAPI Test Case #4 - Get One User - Assert that the poroper response is produced when details for a single user is requested', () => {
-    it('Verify that the Response Code is 200 if users are found', () => {
+    before(() => {
         cy.api({
             method: 'GET',
             url: baseURL + '/' + userID,
@@ -236,54 +212,27 @@ describe('UserAPI Test Case #4 - Get One User - Assert that the poroper response
             },
             failOnStatusCode: false
         }).then((res) => {
-            expect(res.status).to.eql(200);
-            expect(res.statusText).to.eql('OK');
+            response = res
         })
+    })
+    it('Verify that the Response Code is 200 if users are found', () => {
+        expect(response.status).to.eql(200);
+        expect(response.statusText).to.eql('OK');
     });
     it('Verify that the Response Body is in JSON', () => {
-        cy.api({
-            method: 'GET',
-            url: baseURL + '/' + userID,
-            auth: {
-                username: username,
-                password: password
-            },
-            failOnStatusCode: false
-        }).then((res) => {
-            expect(res.headers['content-type']).to.eql("application/json; charset=utf-8")
-        })
+        expect(response.headers['content-type']).to.eql("application/json; charset=utf-8")
     });
     it('Verify that only a single user is returned in the request', () => {
-        cy.api({
-            method: 'GET',
-            url: baseURL + '/' + userID,
-            auth: {
-                username: username,
-                password: password
-            },
-            failOnStatusCode: false
-        }).then((res) => {
-            expect(res.body).not.to.be.an('array');
-            expect(Object.keys(res.body).length).to.eql(9)
-        })
+        expect(response.body).not.to.be.an('array');
+        expect(Object.keys(response.body).length).to.eql(9)
     });
     it('Verify that the Response Body contains the expected content', () => {
-        cy.api({
-            method: 'GET',
-            url: baseURL + '/' + userID,
-            auth: {
-                username: username,
-                password: password
-            },
-            failOnStatusCode: false
-        }).then((res) => {
-            checkStructure(res.body, expectedStructure)
-        })
+        checkStructure(response.body, expectedStructure)
     });
 })
 
 describe('UserAPI Test Case #5 - Get One User - Assert that the proper response is produced when a non-numerical datatype is provided in the Request URL', () => {
-    it('Verify that the Response Code is 400 if the provided userID is invalid', () => {
+    before(() => {
         cy.api({
             method: 'GET',
             url: baseURL + '/' + 'testing',
@@ -293,91 +242,49 @@ describe('UserAPI Test Case #5 - Get One User - Assert that the proper response 
             },
             failOnStatusCode: false
         }).then((res) => {
-            expect(res.status).to.eql(400);
-            expect(res.statusText).to.eql('Bad Request');
+            response = res
         })
+    })
+    it('Verify that the Response Code is 400 if the provided userID is invalid', () => {
+        expect(response.status).to.eql(400);
+        expect(response.statusText).to.eql('Bad Request');
     });
     it('Verify that the Response Body is in JSON', () => {
-        cy.api({
-            method: 'GET',
-            url: baseURL + '/' + 'testing',
-            auth: {
-                username: username,
-                password: password
-            },
-            failOnStatusCode: false
-        }).then((res) => {
-            expect(res.headers['content-type']).to.eql("application/json; charset=utf-8")
-        })
+        expect(response.headers['content-type']).to.eql("application/json; charset=utf-8")
     });
     it('Verify that the Response Body contains the correct message', () => {
-        cy.api({
-            method: 'GET',
-            url: baseURL + '/' + 'testing',
-            auth: {
-                username: username,
-                password: password
-            },
-            failOnStatusCode: false
-        }).then((res) => {
-            expect(res.body.error).to.eql('Invalid user ID')
-        })
+        expect(response.body.error).to.eql('Invalid user ID')
     });
 })
 
 describe('UserAPI Test Case #6 - Get One User - Assert that the proper response is produced when a non-existent ID is provided', () => {
-    it('Verify that the Response Code is 404 if the provided userID is invalid', () => {
+    before(() => {
         cy.api({
             method: 'GET',
-            url: baseURL + '/' + '4',
+            url: baseURL + '/' + fakeID,
             auth: {
                 username: username,
                 password: password
             },
             failOnStatusCode: false
         }).then((res) => {
-            expect(res.status).to.eql(404);
-            expect(res.statusText).to.eql('Not Found');
+            response = res
         })
+    })
+    it('Verify that the Response Code is 404 if the provided userID is invalid', () => {
+        expect(response.status).to.eql(404);
+        expect(response.statusText).to.eql('Not Found');
     });
     it('Verify that the Response Body is in JSON', () => {
-        cy.api({
-            method: 'GET',
-            url: baseURL + '/' + '4',
-            auth: {
-                username: username,
-                password: password
-            },
-            failOnStatusCode: false
-        }).then((res) => {
-            expect(res.headers['content-type']).to.eql("application/json; charset=utf-8")
-        })
+        expect(response.headers['content-type']).to.eql("application/json; charset=utf-8")
     });
     it('Verify that the Response Body contains the correct message', () => {
-        cy.api({
-            method: 'GET',
-            url: baseURL + '/' + '4',
-            auth: {
-                username: username,
-                password: password
-            },
-            failOnStatusCode: false
-        }).then((res) => {
-            expect(res.body.error).to.eql('User not found')
-        })
+        expect(response.body.error).to.eql('User not found')
     });
 })
 
 describe('UserAPI Test Case #7 - Update a User - Assert that a user details can be updated', () => {
-    let body = {
-        email: "test@testing12345.com",
-        username: "titingkayad",
-        password: "kinaya",
-        firstName: "thefirst",
-        lastName: "lasttwo",
-        accountType: "USER"
-    }
-    it('Verify that the Response Code is 200 if user details is updated successfully', () => {
+    before(() => {
         cy.api({
             method: 'PUT',
             url: baseURL + '/' + userID,
@@ -386,27 +293,24 @@ describe('UserAPI Test Case #7 - Update a User - Assert that a user details can 
                 password: password
             },
             failOnStatusCode: false,
-            body: body
+            body: updatedBody
         }).then((res) => {
-            expect(res.status).to.eql(200);
-            expect(res.statusText).to.eql('OK');
+            response = res
         })
+    })
+    it('Verify that the Response Code is 200 if user details is updated successfully', () => {
+        expect(response.status).to.eql(200);
+        expect(response.statusText).to.eql('OK');
     });
     it('Verify that the Response Body is in JSON', () => {
-        cy.api({
-            method: 'PUT',
-            url: baseURL + '/' + userID,
-            auth: {
-                username: username,
-                password: password
-            },
-            failOnStatusCode: false,
-            body: body
-        }).then((res) => {
-            expect(res.headers['content-type']).to.eql("application/json; charset=utf-8")
-        })
+        expect(response.headers['content-type']).to.eql("application/json; charset=utf-8")
     });
     it('Verify that the Response Body contains the expected content', () => {
+        checkStructure(response.body, expectedStructure)
+        expect(response.body.firstName).to.eql(updatedBody.firstName)
+        expect(response.body.lastName).to.eql(updatedBody.lastName)
+    });
+    after(() => {
         cy.api({
             method: 'PUT',
             url: baseURL + '/' + userID,
@@ -415,15 +319,13 @@ describe('UserAPI Test Case #7 - Update a User - Assert that a user details can 
                 password: password
             },
             failOnStatusCode: false,
-            body: body
-        }).then((res) => {
-            checkStructure(res.body, expectedStructure)
+            body: debugCredentials
         })
     });
 })
 
 describe('UserAPI Test Case #8 - Update a User - Assert that a user details remains the same when no response message is sent', () => {
-    it('Verify that the Response Code is 500 if the server fails to process the request', () => {
+    before(() => {
         cy.api({
             method: 'PUT',
             url: baseURL + '/' + userID,
@@ -433,22 +335,15 @@ describe('UserAPI Test Case #8 - Update a User - Assert that a user details rema
             },
             failOnStatusCode: false
         }).then((res) => {
-            expect(res.status).to.eql(500);
-            expect(res.statusText).to.eql('Internal Server Error');
+            response = res
         })
+    })
+    it('Verify that the Response Code is 400 if the server fails to process the request', () => {
+        expect(response.status).to.eql(400);
+        expect(response.statusText).to.eql('Bad Request');
     });
     it('Verify that the Response Body is in JSON', () => {
-        cy.api({
-            method: 'PUT',
-            url: baseURL + '/' + userID,
-            auth: {
-                username: username,
-                password: password
-            },
-            failOnStatusCode: false
-        }).then((res) => {
-            expect(res.headers['content-type']).to.eql("application/json; charset=utf-8")
-        })
+        expect(response.headers['content-type']).to.eql("application/json; charset=utf-8")
     });
     it('Verify that the user details have not yet changed', () => {
         cy.api({
@@ -467,15 +362,7 @@ describe('UserAPI Test Case #8 - Update a User - Assert that a user details rema
 })
 
 describe('UserAPI Test Case #9 - Update a User - Assert that a user details cannot be updated when a non-numerical datatype is provided in the Request URL', () => {
-    let body = {
-        email: "test@testing12345.com",
-        username: "titingkayad",
-        password: "kinaya",
-        firstName: "thefirst",
-        lastName: "lasttwo",
-        accountType: "USER"
-    }
-    it('Verify that the Response Code is 400 if the provided UserID is invalid', () => {
+    before(() => {
         cy.api({
             method: 'PUT',
             url: baseURL + '/' + 'testing',
@@ -483,94 +370,47 @@ describe('UserAPI Test Case #9 - Update a User - Assert that a user details cann
                 username: username,
                 password: password
             },
-            failOnStatusCode: false,
-            body: body
+            failOnStatusCode: false
         }).then((res) => {
-            expect(res.status).to.eql(400);
-            expect(res.statusText).to.eql('Bad Request');
+            response = res
         })
+    })
+    it('Verify that the Response Code is 400 if the provided UserID is invalid', () => {
+        expect(response.status).to.eql(400);
+        expect(response.statusText).to.eql('Bad Request');
     });
     it('Verify that the Response Body is in JSON', () => {
-        cy.api({
-            method: 'PUT',
-            url: baseURL + '/' + 'testing',
-            auth: {
-                username: username,
-                password: password
-            },
-            failOnStatusCode: false,
-            body: body
-        }).then((res) => {
-            expect(res.headers['content-type']).to.eql("application/json; charset=utf-8")
-        })
+        expect(response.headers['content-type']).to.eql("application/json; charset=utf-8")
     });
     it('Verify that the Response Body contains the correct message', () => {
-        cy.api({
-            method: 'PUT',
-            url: baseURL + '/' + 'testing',
-            auth: {
-                username: username,
-                password: password
-            },
-            failOnStatusCode: false,
-            body: body
-        }).then((res) => {
-            expect(res.body.error).to.eql('Invalid user ID')
-        })
+        expect(response.body.error).to.eql('Invalid user ID')
     });
 })
 
 describe('UserAPI Test Case #10 - Update a User - Assert that the proper response is produced when a non-existent ID is provided', () => {
-    let body = {
-        email: "test@testing12345.com",
-        username: "titingkayad",
-        password: "kinaya",
-        firstName: "thefirst",
-        lastName: "lasttwo",
-        accountType: "USER"
-    }
-    it('Verify that the Response Code is 404 if the provided UserID is invalid', () => {
+    before(() => {
         cy.api({
             method: 'PUT',
-            url: baseURL + '/' + '4',
+            url: baseURL + '/' + fakeID,
             auth: {
                 username: username,
                 password: password
             },
             failOnStatusCode: false,
-            body: body
+            body: updatedBody
         }).then((res) => {
-            expect(res.status).to.eql(404);
-            expect(res.statusText).to.eql('Not Found');
+            response = res
         })
+    })
+    it('Verify that the Response Code is 404 if the provided UserID is invalid', () => {
+        expect(response.status).to.eql(404);
+        expect(response.statusText).to.eql('Not Found');
     });
     it('Verify that the Response Body is in JSON', () => {
-        cy.api({
-            method: 'PUT',
-            url: baseURL + '/' + '4',
-            auth: {
-                username: username,
-                password: password
-            },
-            failOnStatusCode: false,
-            body: body
-        }).then((res) => {
-            expect(res.headers['content-type']).to.eql("application/json; charset=utf-8")
-        })
+        expect(response.headers['content-type']).to.eql("application/json; charset=utf-8")
     });
     it('Verify that the Response Body contains the correct message', () => {
-        cy.api({
-            method: 'PUT',
-            url: baseURL + '/' + '4',
-            auth: {
-                username: username,
-                password: password
-            },
-            failOnStatusCode: false,
-            body: body
-        }).then((res) => {
-            expect(res.body.error).to.eql('User not found')
-        })
+        expect(response.body.error).to.eql('User not found')
     });
 })
 
@@ -707,7 +547,7 @@ describe('UserAPI Test Case #11 - Assert that the proper response is produced wh
             expect(res.statusText).to.eql('Bad Request');
         })
     });
-    it('Reset User Details', () => {
+    after(() => {
         cy.api({
             method: 'PUT',
             url: baseURL + '/' + userID,
@@ -858,7 +698,7 @@ describe('UserAPI Test Case #12 - Assert that the proper response is produced wh
             expect(res.statusText).to.eql('Bad Request');
         })
     });
-    it('Reset User Details', () => {
+    after(() => {
         cy.api({
             method: 'PUT',
             url: baseURL + '/' + userID,
@@ -971,7 +811,7 @@ describe('UserAPI Test Case #13 - Assert that the proper response is produced wh
             expect(res.statusText).to.eql('Bad Request');
         })
     });
-    it('Reset User Details', () => {
+    after(() => {
         cy.api({
             method: 'PUT',
             url: baseURL + '/' + userID,
@@ -1024,77 +864,49 @@ describe('UserAPI Test Case #14 - Update a User - Assert that a user cannot be u
 
 describe('UserAPI Test Case #15 - Patch a User - Assert that a user details can be patched', () => {
     before(() => {
-
-    })
-    after(() => {
-
+        cy.api({
+            method: 'PATCH',
+            url: baseURL + '/' + userID,
+            auth: {
+                username: username,
+                password: password
+            },
+            failOnStatusCode: false,
+            body: {
+                firstName: "firstfirst",
+                lastName: "twotwo"
+            }
+        }).then((res) => {
+            response = res
+        })
     })
     it('Verify that the Response Code is 200 if user details is patched successfully', () => {
-        cy.api({
-            method: 'PATCH',
-            url: baseURL + '/' + userID,
-            auth: {
-                username: username,
-                password: password
-            },
-            failOnStatusCode: false,
-            body: {
-                firstName: "firstfirst",
-                lastName: "twotwo"
-            }
-        }).then((res) => {
-            expect(res.status).to.eql(200);
-            expect(res.statusText).to.eql('OK');
-        })
+        expect(response.status).to.eql(200);
+        expect(response.statusText).to.eql('OK');
     });
     it('Verify that the Response Body is in JSON', () => {
-        cy.api({
-            method: 'PATCH',
-            url: baseURL + '/' + userID,
-            auth: {
-                username: username,
-                password: password
-            },
-            failOnStatusCode: false,
-            body: {
-                firstName: "firstfirst",
-                lastName: "twotwo"
-            }
-        }).then((res) => {
-            expect(res.headers['content-type']).to.eql("application/json; charset=utf-8")
-        })
+        expect(response.headers['content-type']).to.eql("application/json; charset=utf-8")
     });
     it('Verify that the Response Body contains the correct format', () => {
+        checkStructure(response.body, expectedStructure)
+        expect(response.body.firstName).to.eql('firstfirst')
+        expect(response.body.lastName).to.eql('twotwo')
+    });
+    after(() => {
         cy.api({
-            method: 'PATCH',
+            method: 'PUT',
             url: baseURL + '/' + userID,
             auth: {
                 username: username,
                 password: password
             },
             failOnStatusCode: false,
-            body: {
-                firstName: "firstfirst",
-                lastName: "twotwo"
-            }
-        })
-        cy.api({
-            method: 'GET',
-            url: baseURL + '/' + userID,
-            auth: {
-                username: username,
-                password: password
-            },
-            failOnStatusCode: false
-        }).then((res) => {
-            checkStructure(res.body, expectedStructure)
-            expect(res.body.firstName).to.eql('firstfirst')
-            expect(res.body.lastName).to.eql('twotwo')
+            body: debugCredentials
         })
     });
 })
 describe('UserAPI Test Case #16 - Patch a User - Assert that a user details cannot be patched when a non-numerical datatype is provided in the Request URL', () => {
-    it('Verify that the Response Code is 400 if the provided userID is invalid', () => {
+    before(() => {
         cy.api({
             method: 'PATCH',
             url: baseURL + '/' + 'testing',
@@ -1108,51 +920,26 @@ describe('UserAPI Test Case #16 - Patch a User - Assert that a user details cann
                 lastName: "twotwo"
             }
         }).then((res) => {
-            expect(res.status).to.eql(400);
-            expect(res.statusText).to.eql('Bad Request');
+            response = res
         })
+    })
+    it('Verify that the Response Code is 400 if the provided userID is invalid', () => {
+        expect(response.status).to.eql(400);
+        expect(response.statusText).to.eql('Bad Request');
     });
     it('Verify that the Response Body is in JSON', () => {
-        cy.api({
-            method: 'PATCH',
-            url: baseURL + '/' + 'testing',
-            auth: {
-                username: username,
-                password: password
-            },
-            failOnStatusCode: false,
-            body: {
-                firstName: "firstfirst",
-                lastName: "twotwo"
-            }
-        }).then((res) => {
-            expect(res.headers['content-type']).to.eql("application/json; charset=utf-8")
-        })
+        expect(response.headers['content-type']).to.eql("application/json; charset=utf-8")
     });
     it('Verify that the Response Body contains the correct message', () => {
-        cy.api({
-            method: 'PATCH',
-            url: baseURL + '/' + 'testing',
-            auth: {
-                username: username,
-                password: password
-            },
-            failOnStatusCode: false,
-            body: {
-                firstName: "firstfirst",
-                lastName: "twotwo"
-            }
-        }).then((res) => {
-            expect(res.body.error).to.eql('Invalid user ID')
-        })
+        expect(response.body.error).to.eql('Invalid user ID')
     });
 })
 
 describe('UserAPI Test Case #17 - Patch a User - Assert that the proper response is produced when a non-existent ID is provided', () => {
-    it('Verify that the Response Code is 404 if the provided userID is invalid', () => {
+    before(() => {
         cy.api({
             method: 'PATCH',
-            url: baseURL + '/' + '4',
+            url: baseURL + '/' + fakeID,
             auth: {
                 username: username,
                 password: password
@@ -1163,43 +950,18 @@ describe('UserAPI Test Case #17 - Patch a User - Assert that the proper response
                 lastName: "twotwo"
             }
         }).then((res) => {
-            expect(res.status).to.eql(404);
-            expect(res.statusText).to.eql('Not Found');
+            response = res
         })
+    })
+    it('Verify that the Response Code is 404 if the provided userID is invalid', () => {
+        expect(response.status).to.eql(404);
+        expect(response.statusText).to.eql('Not Found');
     });
     it('Verify that the Response Body is in JSON', () => {
-        cy.api({
-            method: 'PATCH',
-            url: baseURL + '/' + '4',
-            auth: {
-                username: username,
-                password: password
-            },
-            failOnStatusCode: false,
-            body: {
-                firstName: "firstfirst",
-                lastName: "twotwo"
-            }
-        }).then((res) => {
-            expect(res.headers['content-type']).to.eql("application/json; charset=utf-8")
-        })
+        expect(response.headers['content-type']).to.eql("application/json; charset=utf-8")
     });
     it('Verify that the Response Body contains the correct message', () => {
-        cy.api({
-            method: 'PATCH',
-            url: baseURL + '/' + '4',
-            auth: {
-                username: username,
-                password: password
-            },
-            failOnStatusCode: false,
-            body: {
-                firstName: "firstfirst",
-                lastName: "twotwo"
-            }
-        }).then((res) => {
-            expect(res.body.error).to.eql('User not found')
-        })
+        expect(response.body.error).to.eql('User not found')
     });
 })
 
@@ -1224,61 +986,18 @@ describe('UserAPI Test Case #18 - Patch a User - Assert that a user cannot be pa
 })
 
 describe('UserAPI Test Case #19 - Delete a User - Assert that a user can be deleted', () => {
-    let sampleData = {
-        email: "dummemail@email123.com",
-        username: "kleee",
-        password: "kleeer@",
-        firstName: "Clara",
-        lastName: "Valac",
-        accountType: "USER",
-    }
-
     it('Send a DELETE Request and Verify that the Response Code is 204 if the user is deleted properly', () => {
         cy.api({
-            method: 'POST',
-            url: baseURL + '/',
+            method: 'DELETE',
+            url: baseURL + '/' + userID,
             auth: {
                 username: username,
                 password: password
             },
             failOnStatusCode: false,
-            body: sampleData
-        })
-        cy.api({
-            method: 'GET',
-            url: baseURL + '/',
-            auth: {
-                username: username,
-                password: password
-            },
-            failOnStatusCode: false,
-            body: sampleData
         }).then((res) => {
-            const users = Object.values(res.body);
-            deleteID = findUserIDbyEmail(users, sampleData.email)
-            cy.api({
-                method: 'GET',
-                url: baseURL + '/' + deleteID,
-                auth: {
-                    username: username,
-                    password: password
-                },
-                failOnStatusCode: false,
-                body: sampleData
-            })
-            cy.api({
-                method: 'DELETE',
-                url: baseURL + '/' + deleteID,
-                auth: {
-                    username: username,
-                    password: password
-                },
-                failOnStatusCode: false,
-                body: sampleData
-            }).then((res) => {
-                expect(res.status).to.eql(204)
-                expect(res.statusText).to.eql("No Content")
-            })
+            expect(res.status).to.eql(204)
+            expect(res.statusText).to.eql("No Content")
         })
     });
 })
@@ -1287,7 +1006,7 @@ describe('UserAPI Test Case #20 - Delete a User - Assert that a proper response 
     it('Send a DELETE Request and Verify that the Response Code is 404 if the user is not found', () => {
         cy.api({
             method: 'DELETE',
-            url: baseURL + '/' + '4',
+            url: baseURL + '/' + fakeID,
             auth: {
                 username: username,
                 password: password
