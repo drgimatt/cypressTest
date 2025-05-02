@@ -450,7 +450,7 @@ describe('UserAPI Test Case #8 - Update a User - Assert that a user details rema
             expect(res.headers['content-type']).to.eql("application/json; charset=utf-8")
         })
     });
-    it('Verify that the Response Body contains the expected content', () => {
+    it('Verify that the user details have not yet changed', () => {
         cy.api({
             method: 'GET',
             url: baseURL + '/' + userID,
@@ -574,7 +574,7 @@ describe('UserAPI Test Case #10 - Update a User - Assert that the proper respons
     });
 })
 
-describe.skip('UserAPI Test Case #11 - Assert that the proper response is produced when a request is made with incomplete details', () => {
+describe('UserAPI Test Case #11 - Assert that the proper response is produced when a request is made with key-value pairs that are blanked out', () => {
     it('Verify the Response is a 400: Bad Request if the Email Address is not provided', () => {
         cy.api({
             method: 'PUT',
@@ -730,8 +730,9 @@ describe.skip('UserAPI Test Case #11 - Assert that the proper response is produc
         })
     });
 })
-describe.skip('UserAPI Test Case #12 - Assert that the proper response is produced when a request is made with invalid details', () => {
-    it('Verify the Response is a 400: Bad Request if the Email Address is not in the correct format', () => {
+
+describe('UserAPI Test Case #12 - Assert that the proper response is produced when a request is made with missing key-value pairs', () => {
+    it('Verify the Response is a 400: Bad Request if the Email Address is not provided', () => {
         cy.api({
             method: 'PUT',
             url: baseURL + '/' + userID,
@@ -741,9 +742,50 @@ describe.skip('UserAPI Test Case #12 - Assert that the proper response is produc
             },
             failOnStatusCode: false,
             body: {
-                email: "123456",
                 username: "titingkayad",
                 password: "kinaya",
+                firstName: "thefirst",
+                lastName: "lasttwo",
+                accountType: "USER"
+            }
+        }).then((res) => {
+            expect(res.status).to.eql(400);
+            expect(res.statusText).to.eql('Bad Request');
+        })
+    });
+    it('Verify the Response is a 400: Bad Request if the username is not provided', () => {
+        cy.api({
+            method: 'PUT',
+            url: baseURL + '/' + userID,
+            auth: {
+                username: username,
+                password: password
+            },
+            failOnStatusCode: false,
+            body: {
+                email: "test@testing12345.com",
+                password: "kinaya",
+                firstName: "thefirst",
+                lastName: "lasttwo",
+                accountType: "USER"
+            }
+        }).then((res) => {
+            expect(res.status).to.eql(400);
+            expect(res.statusText).to.eql('Bad Request');
+        })
+    });
+    it('Verify the Response is a 400: Bad Request if the password is not provided', () => {
+        cy.api({
+            method: 'PUT',
+            url: baseURL + '/' + userID,
+            auth: {
+                username: username,
+                password: password
+            },
+            failOnStatusCode: false,
+            body: {
+                email: "test@testing12345.com",
+                username: "titingkayad",
                 firstName: "thefirst",
                 lastName: "lasttwo",
                 accountType: "USER"
@@ -766,7 +808,6 @@ describe.skip('UserAPI Test Case #12 - Assert that the proper response is produc
                 email: "test@testing12345.com",
                 username: "titingkayad",
                 password: "kinaya",
-                firstName: "$%$#@$%$^",
                 lastName: "lasttwo",
                 accountType: "USER"
             }
@@ -789,7 +830,6 @@ describe.skip('UserAPI Test Case #12 - Assert that the proper response is produc
                 username: "titingkayad",
                 password: "kinaya",
                 firstName: "thefirst",
-                lastName: "%@%@$%@$%#$",
                 accountType: "USER"
             }
         }).then((res) => {
@@ -798,6 +838,118 @@ describe.skip('UserAPI Test Case #12 - Assert that the proper response is produc
         })
     });
     it('Verify the Response is a 400: Bad Request if the Account Type is not provided', () => {
+        cy.api({
+            method: 'PUT',
+            url: baseURL + '/' + userID,
+            auth: {
+                username: username,
+                password: password
+            },
+            failOnStatusCode: false,
+            body: {
+                email: "test@testing12345.com",
+                username: "titingkayad",
+                password: "kinaya",
+                firstName: "thefirst",
+                lastName: "lasttwo",
+            }
+        }).then((res) => {
+            expect(res.status).to.eql(400);
+            expect(res.statusText).to.eql('Bad Request');
+        })
+    });
+    it('Reset User Details', () => {
+        cy.api({
+            method: 'PUT',
+            url: baseURL + '/' + userID,
+            auth: {
+                username: username,
+                password: password
+            },
+            failOnStatusCode: false,
+            body: {
+                email: "test@testing12345.com",
+                username: "titingkayad",
+                password: "kinaya",
+                firstName: "thefirst",
+                lastName: "lasttwo",
+                accountType: "USER"
+            }
+        }).then((res) => {
+            expect(res.status).to.eql(200);
+            expect(res.statusText).to.eql('OK');
+        })
+    });
+})
+
+describe('UserAPI Test Case #13 - Assert that the proper response is produced when a request is made with invalid details', () => {
+    it('Verify the Response is a 400: Bad Request if the Email Address is not in the correct format', () => {
+        cy.api({
+            method: 'PUT',
+            url: baseURL + '/' + userID,
+            auth: {
+                username: username,
+                password: password
+            },
+            failOnStatusCode: false,
+            body: {
+                email: "123456",
+                username: "titingkayad",
+                password: "kinaya",
+                firstName: "thefirst",
+                lastName: "lasttwo",
+                accountType: "USER"
+            }
+        }).then((res) => {
+            expect(res.status).to.eql(400);
+            expect(res.statusText).to.eql('Bad Request');
+        })
+    });
+    it('Verify the Response is a 400: Bad Request if the firstname is not in the correct format', () => {
+        cy.api({
+            method: 'PUT',
+            url: baseURL + '/' + userID,
+            auth: {
+                username: username,
+                password: password
+            },
+            failOnStatusCode: false,
+            body: {
+                email: "test@testing12345.com",
+                username: "titingkayad",
+                password: "kinaya",
+                firstName: "$%$#@$%$^",
+                lastName: "lasttwo",
+                accountType: "USER"
+            }
+        }).then((res) => {
+            expect(res.status).to.eql(400);
+            expect(res.statusText).to.eql('Bad Request');
+        })
+    });
+    it('Verify the Response is a 400: Bad Request if the lastname is not in the correct format', () => {
+        cy.api({
+            method: 'PUT',
+            url: baseURL + '/' + userID,
+            auth: {
+                username: username,
+                password: password
+            },
+            failOnStatusCode: false,
+            body: {
+                email: "test@testing12345.com",
+                username: "titingkayad",
+                password: "kinaya",
+                firstName: "thefirst",
+                lastName: "%@%@$%@$%#$",
+                accountType: "USER"
+            }
+        }).then((res) => {
+            expect(res.status).to.eql(400);
+            expect(res.statusText).to.eql('Bad Request');
+        })
+    });
+    it('Verify the Response is a 400: Bad Request if the Account Type is not in the correct format', () => {
         cy.api({
             method: 'PUT',
             url: baseURL + '/' + userID,
@@ -842,7 +994,35 @@ describe.skip('UserAPI Test Case #12 - Assert that the proper response is produc
         })
     });
 })
-describe('UserAPI Test Case #13 - Patch a User - Assert that a user details can be patched', () => {
+
+describe('UserAPI Test Case #14 - Update a User - Assert that a user cannot be updated if a non-accepted key-pair value is sent', () => {
+    let body = {
+        email: "test@testing12345.com",
+        username: "titingkayad",
+        password: "kinaya",
+        state: "unauthorized",
+        firstName: "thefirst",
+        lastName: "lasttwo",
+        accountType: "USER"
+    }
+    it('Verify that the Response Code is 400: Bad Request if the message is not in the correct format', () => {
+        cy.api({
+            method: 'PUT',
+            url: baseURL + '/' + userID,
+            auth: {
+                username: username,
+                password: password
+            },
+            failOnStatusCode: false,
+            body: body
+        }).then((res) => {
+            expect(res.status).to.eql(400);
+            expect(res.statusText).to.eql('Bad Request');
+        })
+    });
+})
+
+describe('UserAPI Test Case #15 - Patch a User - Assert that a user details can be patched', () => {
     before(() => {
 
     })
@@ -913,7 +1093,7 @@ describe('UserAPI Test Case #13 - Patch a User - Assert that a user details can 
         })
     });
 })
-describe('UserAPI Test Case #14 - Patch a User - Assert that a user details cannot be patched when a non-numerical datatype is provided in the Request URL', () => {
+describe('UserAPI Test Case #16 - Patch a User - Assert that a user details cannot be patched when a non-numerical datatype is provided in the Request URL', () => {
     it('Verify that the Response Code is 400 if the provided userID is invalid', () => {
         cy.api({
             method: 'PATCH',
@@ -968,7 +1148,7 @@ describe('UserAPI Test Case #14 - Patch a User - Assert that a user details cann
     });
 })
 
-describe('UserAPI Test Case #15 - Patch a User - Assert that the proper response is produced when a non-existent ID is provided', () => {
+describe('UserAPI Test Case #17 - Patch a User - Assert that the proper response is produced when a non-existent ID is provided', () => {
     it('Verify that the Response Code is 404 if the provided userID is invalid', () => {
         cy.api({
             method: 'PATCH',
@@ -1023,7 +1203,27 @@ describe('UserAPI Test Case #15 - Patch a User - Assert that the proper response
     });
 })
 
-describe('UserAPI Test Case #16 - Delete a User - Assert that a user can be deleted', () => {
+describe('UserAPI Test Case #18 - Patch a User - Assert that a user cannot be patched if a non-accepted key-pair value is sent', () => {
+    it('Verify that the Response Code is 400: Bad Request if the message is not in the correct format', () => {
+        cy.api({
+            method: 'PATCH',
+            url: baseURL + '/' + userID,
+            auth: {
+                username: username,
+                password: password
+            },
+            failOnStatusCode: false,
+            body: {
+                state: "unauthorized"
+            }
+        }).then((res) => {
+            expect(res.status).to.eql(400);
+            expect(res.statusText).to.eql('Bad Request');
+        })
+    });
+})
+
+describe('UserAPI Test Case #19 - Delete a User - Assert that a user can be deleted', () => {
     let sampleData = {
         email: "dummemail@email123.com",
         username: "kleee",
@@ -1083,7 +1283,7 @@ describe('UserAPI Test Case #16 - Delete a User - Assert that a user can be dele
     });
 })
 
-describe('UserAPI Test Case #17 - Delete a User - Assert that a proper response is given if the user is non-existing', () => {
+describe('UserAPI Test Case #20 - Delete a User - Assert that a proper response is given if the user is non-existing', () => {
     it('Send a DELETE Request and Verify that the Response Code is 404 if the user is not found', () => {
         cy.api({
             method: 'DELETE',
@@ -1100,7 +1300,7 @@ describe('UserAPI Test Case #17 - Delete a User - Assert that a proper response 
     });
 })
 
-describe('UserAPI Test Case #18 - Delete a User - Assert that the delete function will fail when a non-numerical datatype is provided in the Request URL', () => {
+describe('UserAPI Test Case #21 - Delete a User - Assert that the delete function will fail when a non-numerical datatype is provided in the Request URL', () => {
     it('Send a DELETE Request and Verify that the Response Code is 404 if the user is not found', () => {
         cy.api({
             method: 'DELETE',
