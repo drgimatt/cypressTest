@@ -1,5 +1,6 @@
 const { defineConfig } = require("cypress");
 const { beforeRunHook, afterRunHook } = require('cypress-mochawesome-reporter/lib');
+const cypressSplit = require('cypress-split')
 
 module.exports = defineConfig({
   projectId: "eqpax6",
@@ -26,6 +27,7 @@ module.exports = defineConfig({
   },
   e2e: {
     setupNodeEvents(on, config) {  
+      cypressSplit(on, config)
       on('before:run', async (details) => {
         console.log('override before:run');
         await beforeRunHook(details);
@@ -34,7 +36,12 @@ module.exports = defineConfig({
         console.log('override after:run');
         await afterRunHook();
       });
+      return config
     }, testIsolation: false,
-    trashAssetsBeforeRuns: true
+    trashAssetsBeforeRuns: true,
+    excludeSpecPattern: [
+      '**/affordaeats/*.cy.js',
+      '**/experiment/**/*.cy.js'
+  ],
   },
 });
