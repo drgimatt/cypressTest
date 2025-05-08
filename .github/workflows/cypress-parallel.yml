@@ -1,4 +1,4 @@
-name: Cypress Parallel
+name: Cypress Parallel Execution
  
 on:
   push:
@@ -9,6 +9,7 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    
     steps:
       # Step 1: Checkout the repository
       - name: Checkout
@@ -56,6 +57,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       matrix: ${{ steps.prepare.outputs.matrix }}
+
     steps:
       - name: Create Matrix
         id: prepare
@@ -71,6 +73,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix: ${{ fromJSON(needs.prepare.outputs.matrix) }}
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
