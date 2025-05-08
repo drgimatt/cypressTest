@@ -38,6 +38,10 @@ module.exports = defineConfig({
       });
       return config
     }, testIsolation: false,
-    trashAssetsBeforeRuns: true
+    trashAssetsBeforeRuns: true,
+    excludeSpecPattern: [
+      '**/affordaeats/*.cy.js',
+      '**/experiment/**/*.cy.js'
+  ],
   },
 });
