@@ -71,6 +71,11 @@ Each of the websites are tested based on functionalities that are both easily ac
 3. Select your preferred browser and click "Start E2E Testing"
 4. In the newly opened browser window, select the spec file you want to test
 
+## Execution Status
+
+[![Cypress Serial Execution](https://github.com/drgimatt/cypressTest/actions/workflows/cypress.yml/badge.svg)](https://github.com/drgimatt/cypressTest/actions/workflows/cypress.yml)
+[![Cypress Parallel Execution](https://github.com/drgimatt/cypressTest/actions/workflows/cypress-parallel.yml/badge.svg)](https://github.com/drgimatt/cypressTest/actions/workflows/cypress-parallel.yml)
+
 ## Author
 
 [@drgimatt](https://github.com/drgimatt)
