@@ -90,7 +90,7 @@ jobs:
           DEBUG: cypress-split     
 
   deploy:
-    needs: test-split
+    needs: test
     runs-on: ubuntu-latest
     permissions:
       pages: write
