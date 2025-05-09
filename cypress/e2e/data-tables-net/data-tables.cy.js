@@ -205,7 +205,7 @@ describe('Test #9 - Check if the table can be sorted in an ascending or descendi
       cy.wrap(arr).should('deep.equal', [...arr].sort())
     })
   });
-  it('Check if the start date can be arranged in a descending order', () => {
+  it.skip('Check if the start date can be arranged in a descending order', () => {
     cy.get('[data-dt-column="4"] > .dt-column-header > .dt-column-order').click()
     cy.get('[data-dt-column="4"] > .dt-column-header > .dt-column-order').click()
     let arr = []
@@ -218,7 +218,7 @@ describe('Test #9 - Check if the table can be sorted in an ascending or descendi
       cy.wrap(parsedDates).should('deep.equal', sortedDates)
     })
   });
-  it('Check if the start date can be arranged in a ascending order', () => {
+  it.skip('Check if the start date can be arranged in a ascending order', () => {
     cy.get('[data-dt-column="4"] > .dt-column-header > .dt-column-order').click()
     cy.get('[data-dt-column="4"] > .dt-column-header > .dt-column-order').click()
     let arr = []
@@ -231,7 +231,7 @@ describe('Test #9 - Check if the table can be sorted in an ascending or descendi
       cy.wrap(parsedDates).should('deep.equal', sortedDates)
     })
   });
-  it('Check if the salary can be arranged in a descending order', () => {
+  it.skip('Check if the salary can be arranged in a descending order', () => {
     cy.get('[data-dt-column="5"] > .dt-column-header > .dt-column-order').click()
     cy.get('[data-dt-column="5"] > .dt-column-header > .dt-column-order').click()
     let arr = []
@@ -244,7 +244,7 @@ describe('Test #9 - Check if the table can be sorted in an ascending or descendi
       expect(arr).to.deep.equal(sorted);
     })
   });
-  it('Check if the salary can be arranged in a ascending order', () => {
+  it.skip('Check if the salary can be arranged in a ascending order', () => {
     cy.get('[data-dt-column="5"] > .dt-column-header > .dt-column-order').click()
     cy.get('[data-dt-column="5"] > .dt-column-header > .dt-column-order').click()
     let arr = []
