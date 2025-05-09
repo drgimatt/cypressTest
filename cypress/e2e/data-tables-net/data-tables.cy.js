@@ -184,8 +184,8 @@ describe('Test #9 - Check if the table can be sorted in an ascending or descendi
     })
   });
   it('Check if the age can be arranged in a descending order', () => {
-    cy.get('[data-dt-column="3"] > .dt-column-header > .dt-column-order').click()
-    cy.get('[data-dt-column="3"] > .dt-column-header > .dt-column-order').click()
+    cy.get('[data-dt-column="3"] > .dt-column-header > .dt-column-order').click({force: true})
+    cy.get('[data-dt-column="3"] > .dt-column-header > .dt-column-order').click({force: true})
     let arr = []
     cy.get('table[id="example"]').find('tbody').find('tr').each(($el) => {
       const element = $el.find('td').eq(3).text()
@@ -195,8 +195,8 @@ describe('Test #9 - Check if the table can be sorted in an ascending or descendi
     })
   });
   it('Check if the age can be arranged in a ascending order', () => {
-    cy.get('[data-dt-column="3"] > .dt-column-header > .dt-column-order').click()
-    cy.get('[data-dt-column="3"] > .dt-column-header > .dt-column-order').click()
+    cy.get('[data-dt-column="3"] > .dt-column-header > .dt-column-order').click({force: true})
+    cy.get('[data-dt-column="3"] > .dt-column-header > .dt-column-order').click({force: true})
     let arr = []
     cy.get('table[id="example"]').find('tbody').find('tr').each(($el) => {
       const element = $el.find('td').eq(3).text()
@@ -206,8 +206,8 @@ describe('Test #9 - Check if the table can be sorted in an ascending or descendi
     })
   });
   it.skip('Check if the start date can be arranged in a descending order', () => {
-    cy.get('[data-dt-column="4"] > .dt-column-header > .dt-column-order').click()
-    cy.get('[data-dt-column="4"] > .dt-column-header > .dt-column-order').click()
+    cy.get('[data-dt-column="4"] > .dt-column-header > .dt-column-order').click({force: true})
+    cy.get('[data-dt-column="4"] > .dt-column-header > .dt-column-order').click({force: true})
     let arr = []
     cy.get('table[id="example"]').find('tbody').find('tr').each(($el) => {
       const element = $el.find('td').eq(4).text().trim()
@@ -219,8 +219,8 @@ describe('Test #9 - Check if the table can be sorted in an ascending or descendi
     })
   });
   it.skip('Check if the start date can be arranged in a ascending order', () => {
-    cy.get('[data-dt-column="4"] > .dt-column-header > .dt-column-order').click()
-    cy.get('[data-dt-column="4"] > .dt-column-header > .dt-column-order').click()
+    cy.get('[data-dt-column="4"] > .dt-column-header > .dt-column-order').click({force: true})
+    cy.get('[data-dt-column="4"] > .dt-column-header > .dt-column-order').click({force: true})
     let arr = []
     cy.get('table[id="example"]').find('tbody').find('tr').each(($el) => {
       const element = $el.find('td').eq(4).text().trim()
@@ -232,8 +232,8 @@ describe('Test #9 - Check if the table can be sorted in an ascending or descendi
     })
   });
   it.skip('Check if the salary can be arranged in a descending order', () => {
-    cy.get('[data-dt-column="5"] > .dt-column-header > .dt-column-order').click()
-    cy.get('[data-dt-column="5"] > .dt-column-header > .dt-column-order').click()
+    cy.get('[data-dt-column="5"] > .dt-column-header > .dt-column-order').click({force: true})
+    cy.get('[data-dt-column="5"] > .dt-column-header > .dt-column-order').click({force: true})
     let arr = []
     cy.get('table[id="example"]').find('tbody').find('tr').each(($el) => {
       const element = $el.find('td').eq(5).text()
@@ -245,8 +245,8 @@ describe('Test #9 - Check if the table can be sorted in an ascending or descendi
     })
   });
   it.skip('Check if the salary can be arranged in a ascending order', () => {
-    cy.get('[data-dt-column="5"] > .dt-column-header > .dt-column-order').click()
-    cy.get('[data-dt-column="5"] > .dt-column-header > .dt-column-order').click()
+    cy.get('[data-dt-column="5"] > .dt-column-header > .dt-column-order').click({force: true})
+    cy.get('[data-dt-column="5"] > .dt-column-header > .dt-column-order').click({force: true})
     let arr = []
     cy.get('table[id="example"]').find('tbody').find('tr').each(($el) => {
       const element = $el.find('td').eq(5).text()
