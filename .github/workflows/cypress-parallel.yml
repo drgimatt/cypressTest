@@ -95,7 +95,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}     
 
   deploy:
-    needs: test
+    needs: test-split
     runs-on: ubuntu-latest
     permissions:
       pages: write
