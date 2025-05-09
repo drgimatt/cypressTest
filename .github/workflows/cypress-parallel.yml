@@ -1,17 +1,32 @@
 name: Cypress Parallel Execution
- 
+
 on:
   push:
     branches: [main, test]
   workflow_dispatch:
-  
- 
-jobs:
-  test:
-    runs-on: ubuntu-latest
 
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.prepare.outputs.matrix }}
     steps:
-      # Step 1: Checkout the repository
+      - name: Create Matrix
+        id: prepare
+        uses: bahmutov/gh-build-matrix@main
+        with:
+          n: 3
+
+      - name: Print result
+        run: echo '${{ steps.prepare.outputs.matrix }}'
+
+  test-split:
+    needs: prepare
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJSON(needs.prepare.outputs.matrix) }}
+    steps:
       - name: Checkout
         uses: actions/checkout@v4
 
@@ -22,91 +37,70 @@ jobs:
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-node-
-     
-      # Step 4: Install dependencies
+
       - name: Install dependencies
         run: npm ci
 
-      - name: Run Cypress tests
-        uses: cypress-io/github-action@v5
-
-      - name: Archive code coverage results
-        uses: actions/upload-artifact@v4
-        with:
-           name: code-coverage-report
-           path: cypress/downloads/reports/code-coverage.html
-
-      # Step 7: Archive Screenshot 
-      - name: Archive Cypress screenshots
-        uses: actions/upload-artifact@v4
-        with:
-           name: checkout_screenshot
-           path: cypress/screenshots/
-
-      # Step 8: Rename report file to index.html for GitHub Pages
-      - name: Prepare report file for Github Pages
-        run: mv cypress/downloads/reports/code-coverage.html cypress/downloads/reports/index.html
-
-      # Step 9: Upload report to GitHub Pages artifact
-      - name: Upload GitHub Pages artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: cypress/downloads/reports/
-
-  prepare:
-    runs-on: ubuntu-latest
-    outputs:
-      matrix: ${{ steps.prepare.outputs.matrix }}
-
-    steps:
-      - name: Create Matrix
-        id: prepare
-        uses: bahmutov/gh-build-matrix@main
-        with:
-          n: 3
-      - name: Print result
-        run: echo '${{ steps.prepare.outputs.matrix }}'
-  
-  test-split:
-    needs: prepare
-    runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix: ${{ fromJSON(needs.prepare.outputs.matrix) }}
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      
-      - name: Print Github Variables
+      - name: Print GitHub Variables
         run: npx @bahmutov/print-env GITHUB
 
       - name: Print GitHub strategy context 🖨
         run: echo '${{ toJSON(strategy) }}'
 
       - name: Run split Cypress tests 🧪
-        # https://github.com/cypress-io/github-action
         uses: cypress-io/github-action@v5
         env:
           SPLIT: ${{ strategy.job-total }}
           SPLIT_INDEX: ${{ strategy.job-index }}
           DEBUG: cypress-split
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}     
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-  deploy:
-    needs: test
+      - name: Archive code coverage results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: code-coverage-report-${{ strategy.job-index }}
+          path: cypress/downloads/reports/code-coverage.html
+
+      - name: Archive Cypress screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: checkout_screenshot-${{ strategy.job-index }}
+          path: cypress/screenshots/
+
+  collect-and-deploy:
+    needs: test-split
     runs-on: ubuntu-latest
     permissions:
       pages: write
       id-token: write
-        
     steps:
-      # Step 1: Checkout the repository
       - name: Checkout
         uses: actions/checkout@v4
 
-      # Step 2: Deploy to GitHub Pages
+      - name: Download all code coverage artifacts
+        uses: actions/download-artifact@v4
+        with:
+          pattern: code-coverage-report-*
+          path: cypress/downloads/reports/
+
+      - name: Download all screenshots
+        uses: actions/download-artifact@v4
+        with:
+          pattern: checkout_screenshot-*
+          path: cypress/screenshots/
+
+      - name: Prepare report file for GitHub Pages
+        run: |
+          mkdir -p cypress/downloads/reports/
+          mv cypress/downloads/reports/code-coverage.html cypress/downloads/reports/index.html || true
+
+      - name: Upload GitHub Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: cypress/downloads/reports/
+
       - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4 
+        uses: actions/deploy-pages@v4

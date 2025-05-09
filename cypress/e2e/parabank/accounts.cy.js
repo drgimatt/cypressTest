@@ -6,20 +6,21 @@ describe('Parabank Accounts Test Flow', () => {
         cy.resetBrowser({ cookies: true, local: true, session: true });
         cy.generateData()
         data = generateCustomerData();
+        Cypress.config('baseUrl', Cypress.env('paraBankBaseUrl'))
     })
     it('Parabank Account Registration', () => {
-        cy.visit('https://parabank.parasoft.com/parabank/register.htm')
+        cy.visit('/register.htm')
         cy.registerParabank(data)
         cy.screenshotfullPage('accountRegisterSuccess_Parabank')
         cy.get('#leftPanel a[href="logout.htm"]').click()
     });
     it('Parabank Account Login - Registration Page', () => {
-        cy.loginParabank('https://parabank.parasoft.com/parabank/register.htm',data)
+        cy.loginParabank('/register.htm',data)
         cy.screenshotfullPage('loginSuccessRegister_Parabank')
         cy.get('#leftPanel a[href="logout.htm"]').click()
     })
     it('Parabank Account Login - Index', () => {
-        cy.loginParabank('https://parabank.parasoft.com/parabank/index.htm',data)
+        cy.loginParabank('/index.htm',data)
         cy.screenshotfullPage('loginSuccessIndex_Parabank')
     })
 })

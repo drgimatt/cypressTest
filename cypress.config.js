@@ -7,9 +7,12 @@ module.exports = defineConfig({
   experimentalStudio: true,
   env: {
     PROJECT_NAME: 'Cypress Test Automation Training',
-    ENVIRONMENT: 'QA',
     API_KEY: 'special-key',
-    API_BASE_URL: 'https://petstore.swagger.io/v2'
+    ENVIRONMENT: 'QA',
+    API_BASE_URL: 'https://petstore.swagger.io/v2',
+    sauceDemoBaseUrl: 'https://www.saucedemo.com/',
+    dataTablesBaseUrl: 'https://datatables.net/',
+    paraBankBaseUrl: 'https://parabank.parasoft.com/parabank',
   },
   //viewportWidth: 1920,
   //viewportHeight: 1080,
