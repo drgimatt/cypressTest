@@ -60,14 +60,14 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: code-coverage-report-${{ matrix.index }}
+          name: code-coverage-report-${{ strategy.job-index }}
           path: cypress/downloads/reports/code-coverage.html
 
       - name: Archive Cypress screenshots
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: checkout_screenshot-${{ matrix.index }}
+          name: checkout_screenshot-${{ strategy.job-index }}
           path: cypress/screenshots/
 
   collect-and-deploy:
