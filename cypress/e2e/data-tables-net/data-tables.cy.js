@@ -114,6 +114,7 @@ describe('Test #9 - Check if the table can be sorted in an ascending or descendi
   before(() => {
     cy.resetBrowser({ cookies: true, local: true, session: true });
     cy.visit('/')
+    cy.viewport(850, 1220)
     cy.url().should('include', 'https://datatables.net/')
     cy.get('select[class="dt-input"]').select("100")
   });
