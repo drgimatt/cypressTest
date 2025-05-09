@@ -8,6 +8,7 @@ This repository contains a sample test automation project that accesses numerous
 * [Parabank](https://parabank.parasoft.com/parabank/index.htm) - Created with a POM format
 * [QA-Practice](https://qa-practice.netlify.app)
 * [SauceDemo](https://www.saucedemo.com/)
+* [DataTables](https://datatables.net/)
 * [HTTPBin](https://httpbin.org/)
 * Localhost Server
 
@@ -24,6 +25,8 @@ Each of the websites are tested based on functionalities that are both easily ac
 - **QA-Practice** : A Practice test to understand the way to invoke radio buttons and checkboxes for Cypress
 
 - **SauceDemo** : Like the Automation Exercise, this also tests the ability of the user to purchase items from the website. It uses the normal user credentials.
+
+- **DataTables** : A Practice test that assesses the functionality of an example table
 
 - **HTTPBin** : A Practice test that uses the cypress-plugin-api to make a simple GET request and expects a response code of 200
 
